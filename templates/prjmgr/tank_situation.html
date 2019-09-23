@@ -1,0 +1,13 @@
+{% extends "prjmgr/base_generic.html" %}
+{% block content %}
+  <h1>Anzali Tank Situation</h1><br/>
+  {% if balance_mt %}
+  <ul>
+      <li><strong>Remaining Cargo in Metric Ton:</strong> {{ balance_mt|floatformat:4 }}</li><br/>
+      <li><strong>Remaining Converted to Cubic Meter:</strong> {{ balance_m3|floatformat:4 }}</li><br/>
+      <li><strong>Average Calculated Cargo's Density:</strong> {{ density|floatformat:4 }}</li><br/>
+  </ul>
+  {% else %}
+    <p>There are no books in the library.</p>
+  {% endif %}
+{% endblock %}

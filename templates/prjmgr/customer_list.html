@@ -1,0 +1,23 @@
+{% extends "prjmgr/base_generic.html" %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Customer List</h1>
+        <div style="margin-left: 20px;margin-top: 20px">
+            {% if customer_list %}
+                <ul>
+                    {% for customer in customer_list %}
+                        <li>
+                            <a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a>
+                            ({{ customer.commercial_id_number }})
+                            {% if perms.prjmgr.view_customer %}
+                                - <a href="{% url 'customer_delete' customer.id %}">Delete</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>There are no books in the library.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

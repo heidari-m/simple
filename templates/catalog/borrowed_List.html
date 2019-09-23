@@ -1,0 +1,22 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block content %}
+    {% if perms.catalog.Show_borrowers %}
+        <h1>Borrowed List</h1>
+        {% if object_list %}
+            <ul>
+                {% for bookins in object_list %}
+                    <li class="{% if bookins.is_overdue %}text-danger{% endif %}">
+                        <a href="{% url 'book-detail' bookins.book.pk %}">{{ bookins.book.title }}</a>
+                        ({{ bookins.due_back }}) - {{ bookins.borrower }}
+                        {% if perms.catalog.Show_borrowers %}
+                            - <a href="{% url 'renew-book-librarian' bookins.id %}">Renew</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no books in the library.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

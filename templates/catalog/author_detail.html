@@ -1,0 +1,19 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block content %}
+    <h1>Author: {{ author.last_name }}, {{ author.first_name }}</h1>
+    <p>{{ author.date_of_birth.year }} - {{ author.date_of_death.year }}</p>
+    <div style="margin-left: 20px;margin-top: 20px">
+        <p>Books</p>
+        <p>
+            {% for bookIns in author.book_set.all %}
+                <a href={% url 'book-detail' bookIns.id %}>{{ bookIns.title }}</a> ({{ bookIns.id }})
+                <br/>{{ bookIns.summary }}
+                {% if not forloop.last %} -
+                {% endif %}
+                <br/>
+            {% endfor %}
+        </p>
+    </div>
+    <p></p>
+{% endblock %}

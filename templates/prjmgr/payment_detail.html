@@ -1,0 +1,14 @@
+{% extends "prjmgr/base_generic.html" %}
+
+{% block content %}
+    <h1>Payment Number {{ payment.payment_number }}: {{ payment.payment_date }}</h1>
+    {% if perms.prjmgr.change_payment %}
+        <a href="{% url 'payment_update' payment.id %}">Update</a>
+    {% endif %}
+    <br/>
+    <div style="margin-left: 20px;margin-top: 20px">
+        <p><strong>Customer:</strong> <a
+                href="{% url 'customer-detail' payment.customer.pk %}">{{ payment.customer.name }}</a></p>
+        <p><strong>Payment Amount:</strong> {{ payment.amountCurrency }}</p>
+    </div>
+{% endblock %}

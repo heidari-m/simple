@@ -1,0 +1,20 @@
+{% extends "catalog/base_generic.html" %}
+
+{% block content %}
+    <h1>Auth List</h1>
+    {% if object_list %}
+        <ul>
+            {% for author in object_list %}
+                <li><a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }} </a>
+                    ({{ author.date_of_birth }} - {{ author.date_of_death }})
+                    {% if perms.catalog.Show_borrowers %}
+                        - <a href="{% url 'author_update' author.id %}">Update</a>
+                        - <a href="{% url 'author_delete' author.id %}">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are are are no author.</p>
+    {% endif %}
+{% endblock %}

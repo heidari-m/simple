@@ -1,0 +1,20 @@
+{% extends "prjmgr/base_generic.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Contract Number: {{ contract.id }}</h1>
+        {% if perms.prjmgr.change_contract %}
+            <a href="{% url 'contract_update' contract.id %}">Update</a>
+        {% endif %}
+        <br/>
+        <div style="margin-left: 20px;margin-top: 20px">
+            <p><strong>Customer:</strong> <a
+                    href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
+            </p>
+            <p><strong>Contract Amount:</strong> {{ contract.contract_amount }}</p>
+            <p><strong>Price:</strong> {{ contract.unit_price }}</p>
+            <p><strong>consignee:</strong> {{ contract.consignee }}</p>
+            <p><strong>Comment:</strong> {{ contract.comment }}</p>
+        </div>
+    {% endif %}
+{% endblock %}
