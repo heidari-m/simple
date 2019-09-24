@@ -183,6 +183,8 @@ class Contract(models.Model):
 
     def get_payments(self):
         subTotal = 0
+        if not self.payment_set.all():
+            return 'None'
         for payIns in self.payment_set.all():
             subTotal += payIns.amount
         return f'{float("{0:.2f}".format(subTotal))} {payIns.currency_type}'
