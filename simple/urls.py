@@ -17,11 +17,12 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.urls import path
 
-urlpatterns = [url(r'^polls/', include('polls.urls')),
-               url(r'^site01/', include('site01.urls')),
-               url(r'^catalog/', include('catalog.urls')),
-               url(r'^prjmgr/', include('prjmgr.urls')),
-               url(r'^bookshelf/', include('bookshelf.urls')),
-               path('admin/', admin.site.urls),
-               path('accounts/', include('django.contrib.auth.urls')),
-               ]
+urlpatterns = [
+    # url(r'^polls/', include('polls.urls')),
+    # url(r'^site01/', include('site01.urls')),
+    url(r'^catalog/', include('catalog.urls')),
+    url(r'^prjmgr/', include('prjmgr.urls')),
+    # url(r'^bookshelf/', include('bookshelf.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+]
