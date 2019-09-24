@@ -8,7 +8,7 @@
                     {% for customer in customer_list %}
                         <li>
                             <a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a>
-                            ({{ customer.commercial_id_number }})
+                            ({{ customer.phone_1 }})
                             {% if perms.prjmgr.view_customer %}
                                 - <a href="{% url 'customer_delete' customer.id %}">Delete</a>
                             {% endif %}

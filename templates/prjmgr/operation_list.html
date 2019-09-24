@@ -7,8 +7,8 @@
                 <ul>
                     {% for operation in object_list %}
                         <li>
-                            {{ operation.get_operation_type_display }} <a
-                                href="{% url 'operation-detail' operation.id %}">{{ operation.date }}</a>
+                            {{ operation.get_operation_type_display }} -
+                            <a href="{% url 'operation-detail' operation.id %}">{{ operation.date }}</a>
                             {{ operation.amount_mt }} MT
                             {% if perms.prjmgr.delete_operation %}
                                 - <a href="{% url 'operation_delete' operation.id %}">Delete</a>

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from datetime import date
 
 
+
 # Create your models here.
 # class ContractInstance(models.Model):
 #     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
@@ -56,7 +57,7 @@ class Payment(models.Model):
         return f'{self.payment_number} - {self.customer.name} - ({self.amount} {self.currency_type})'
 
     def amountCurrency(self):
-        return f'{self.amount} {self.currency_type}'
+        return f'{"{0:.2f}".format(self.amount)} {self.currency_type}'
 
     amountCurrency.short_description = ('Amount')
 
@@ -184,4 +185,4 @@ class Contract(models.Model):
         subTotal = 0
         for payIns in self.payment_set.all():
             subTotal += payIns.amount
-        return subTotal
+        return f'{float("{0:.2f}".format(subTotal))} {payIns.currency_type}'
