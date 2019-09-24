@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dqhg#mbizrl3uf%=2=py*45+_$(koe
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hidden-fortress-93380.herokuapp.com']
 
 # Application definition
 
