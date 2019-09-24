@@ -11,9 +11,12 @@
             <p><strong>Customer:</strong> <a
                     href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
             </p>
-            <p><strong>Contract Amount:</strong> {{ contract.contract_amount }}</p>
+            <p><strong>Contract Amount:</strong> {{ contract.contract_amount_mt }}</p>
             <p><strong>Price:</strong> {{ contract.unit_price }}</p>
-            <p><strong>consignee:</strong> {{ contract.consignee }}</p>
+            <p><strong>consignee:</strong>{% for consigneeIns in contract.consignee.all %}
+                {{ consigneeIns }} {% if not forloop.last %} -{% endif %}
+            {% endfor %}</p>
+
             <p><strong>Comment:</strong> {{ contract.comment }}</p>
         </div>
     {% endif %}

@@ -149,7 +149,7 @@ class Contract(models.Model):
     # delivery_completion_date = models.DateField(null=True, blank=True)
     customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
     proforma_number = models.CharField(max_length=12, null=True, blank=True)
-    consignee = models.CharField(max_length=200, null=True, blank=True)
+    consignee = models.ManyToManyField(Customer, related_name='Customer' ,null=True, blank=True)
     # payment = models.ManyToManyField(Payment, help_text='Select payments of this contract')
     CONTRACT_STATUS = (('l', 'Lead'), ('cr', 'Compliance review'), ('n', 'Negotiation'),
                        ('p', 'Pro-Format'), ('s', 'Signed'), ('c', 'Completed'),
