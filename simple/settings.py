@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls.apps.PollsConfig',
+    # 'polls.apps.PollsConfig',
     'site01.apps.Site01Config',
     'catalog.apps.CatalogConfig',
     'prjmgr.apps.PrjmgrConfig',
-    'bookshelf.apps.BookshelfConfig',
+    # 'bookshelf.apps.BookshelfConfig',
     'django_tables2',
 ]
 
