@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'polls.apps.PollsConfig',
-    'site01.apps.Site01Config',
+    # 'site01.apps.Site01Config',
     'catalog.apps.CatalogConfig',
     'prjmgr.apps.PrjmgrConfig',
     # 'bookshelf.apps.BookshelfConfig',
