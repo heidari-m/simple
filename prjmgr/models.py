@@ -52,6 +52,7 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     currency_type = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)
     rate_1_usd = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
+    comment = models.TextField(max_length=300, null=True, blank=True)
 
     def __str__(self):
         return f'{self.payment_number} - {self.customer.name} - ({self.amount} {self.currency_type})'
