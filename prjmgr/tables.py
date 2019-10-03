@@ -33,6 +33,7 @@ class OperationTable(tables.Table):
         model = Operation
         template_name = 'django_tables2/bootstrap4.html'
 
+
 class ContractTable(tables.Table):
     id = tables.LinkColumn('contract-detail', text=lambda record: record.id, args=[A('pk')])
     class Meta:

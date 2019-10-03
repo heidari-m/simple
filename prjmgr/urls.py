@@ -3,14 +3,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [url(r'^$', views.index, name='index'),
-               # path('contracts/', views.ContractListView.as_view(), name='contracts'),
                path('contracts/', views.contract_list, name='contracts'),
                path('contract/<slug:C_No>', views.ContractDetailView.as_view(), name='contract-detail'),
                path('contract/create/', views.ContractCreate.as_view(), name='contract_create'),
                path('contract/<slug:C_No>/update/', views.ContractUpdate.as_view(), name='contract_update'),
                path('contract/<slug:C_No>/delete/', views.ContractDelete.as_view(), name='contract_delete'),
 
-               # path('customers/', views.CustomerListView.as_view(), name='customers'),
                path('customers/', views.customer_list, name='customers'),
                path('customer/<int:pk>', views.CustomerDetailView.as_view(), name='customer-detail'),
                path('customer/create/', views.CustomerCreate.as_view(), name='customer_create'),

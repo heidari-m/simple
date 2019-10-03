@@ -26,13 +26,6 @@ def index(request):
     return render(request, 'prjmgr/index.html', context=context)
 
 
-class ContractListView(LoginRequiredMixin, generic.ListView):
-    login_url = '/accounts/login/'
-    redirect_field_name = 'redirect_to'
-    model = Contract
-    paginate_by = 10
-
-
 def contract_list(request):
     queryset = Contract.objects.all()
     table = ContractTable(queryset)
@@ -83,22 +76,11 @@ class ContractDelete(LoginRequiredMixin, generic.DeleteView):
         return super(ContractDelete, self).dispatch(request, *args, **kwargs)
 
 
-class CustomerListView(LoginRequiredMixin, generic.ListView):
-    model = Customer
-
-
 def customer_list(request):
     queryset = Customer.objects.all()
     table = CustomerTable(queryset)
     RequestConfig(request).configure(table)
     return render(request, 'prjmgr/customer_list.html', {'table': table})
-
-
-# def simple_list(request):
-#     queryset = Operation.objects.all()
-#     table = OperationTable(queryset)
-#     RequestConfig(request).configure(table)
-#     return render(request, 'prjmgr/simple_list.html', {'table': table})
 
 
 class CustomerDetailView(LoginRequiredMixin, generic.DetailView):
@@ -134,10 +116,6 @@ class CustomerDelete(LoginRequiredMixin, generic.DeleteView):
         if not request.user.has_perm('prjmgr.delete_customer'):
             return HttpResponseForbidden()
         return super(CustomerDelete, self).dispatch(request, *args, **kwargs)
-
-
-class PaymentListView(LoginRequiredMixin, generic.ListView):
-    model = Payment
 
 
 def payment_list(request):
@@ -214,14 +192,6 @@ class OperationTableView(SingleTableView):
     template_name = 'prjmgr/met_view.html'
 
 
-# def operation_view(request):
-#     qs = Operation.objects.all()
-#     df = read_frame(qs)
-#     context = {'ops': df, }
-#     return render(request, 'prjmgr/met_view.html', context=context)
-#     # return HttpResponse(df.to_html, context=context)
-
-
 class OperationDetailView(LoginRequiredMixin, generic.DetailView):
     model = Operation
 
@@ -255,50 +225,4 @@ class OperationDeleteView(LoginRequiredMixin, generic.DeleteView):
         if not request.user.has_perm('prjmgr.delete_operation'):
             return HttpResponseForbidden()
         return super(OperationDeleteView, self).dispatch(request, *args, **kwargs)
-
-
-# def simple_list(request):
-#     queryset = Operation.objects.all()
-#     table = OperationTable(queryset)
-#     RequestConfig(request).configure(table)
-#     return render(request, 'prjmgr/simple_list.html', {'table': table})
-#     qs = Operation.objects.all()
-#     df = read_frame(qs)
-#     html = df.to_html()
-# def simple_list(request):
-#     qs = Operation.pdobjects.all()  # Use the Pandas Manager
-#     df = qs.to_dataframe()
-#     template = 'prjmgr/simple_list.html'
-#
-#     # Format the column headers for the Bootstrap table, they're just a list of field names,
-#     # duplicated and turned into dicts like this: {'field': 'foo', 'title: 'foo'}
-#     columns = [{'date': f, 'op_t': f, 'a_mt':f, 'a_m3':f} for f in Operation._meta.fields]
-#     # Write the DataFrame to JSON (as easy as can be)
-#     json = df.to_json(orient='records')  # output just the records (no fieldnames) as a collection of tuples
-#     # Proceed to create your context object containing the columns and the data
-#     context = {
-#         'data': json,
-#         'columns': columns
-#     }
-#     # And render it!
-#     return render(request, template, context)
-
-
-# def ProductView(request):
-#     qs = Product.pdobjects.all()  # Use the Pandas Manager
-#     df = qs.to_dataframe()
-#     template = 'prjmgr/simple_list.html'
-#
-#     #Format the column headers for the Bootstrap table, they're just a list of field names,
-#     #duplicated and turned into dicts like this: {'field': 'foo', 'title: 'foo'}
-#     columns = [{'field': f, 'title': f} for f in Product._meta.fields]
-#     #Write the DataFrame to JSON (as easy as can be)
-#     json = df.to_json(orient='records')  # output just the records (no fieldnames) as a collection of tuples
-#     #Proceed to create your context object containing the columns and the data
-#     context = {
-#              'data': json,
-#              'columns': columns
-#             }
-#     #And render it!
-#     return render(request, template, context)
 
