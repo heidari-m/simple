@@ -4,6 +4,9 @@ from django.urls import reverse
 import uuid  # Required for unique contract instances
 from django.contrib.auth.models import User
 from datetime import date
+import pandas as pd
+from django_pandas.io import read_frame
+from django.http import HttpResponse
 
 
 
@@ -130,13 +133,25 @@ class Delivery(models.Model):
 
     get_vessel_name.short_description = "Vessel name"
 
-
+from django_pandas.managers import DataFrameManager
+class Product(models.Model):
+  product_name=models.TextField()
+  objects = models.Manager()
+  pdobjects = DataFrameManager()  # Pandas-Enabled Manager
 class Operation(models.Model):
     date = models.DateField(null=True, blank=True)
     TYPE = (('in', 'IN'),('o','OUT'))
     operation_type = models.CharField(max_length=2, choices=TYPE)
     amount_mt = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     amount_m3 = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
+    objects = models.Manager()
+    pdobjects = DataFrameManager()
+
+    # def get_context_data(self, *args, **kwargs):
+    #     qs = Operation.objects.all()
+    #     df = read_frame(qs)
+    #     # context = {'ops': df}
+    #     return HttpResponse(df.to_html())
 
 
 class Contract(models.Model):
@@ -183,9 +198,18 @@ class Contract(models.Model):
         return reverse('contract-detail', args=[str(self.id)])
 
     def get_payments(self):
-        subTotal = 0
+        sub_total = 0
         if not self.payment_set.all():
             return 'None'
-        for payIns in self.payment_set.all():
-            subTotal += payIns.amount
-        return f'{float("{0:.2f}".format(subTotal))} {payIns.currency_type}'
+        for pay_ins in self.payment_set.all():
+            sub_total += pay_ins.amount
+        return f'{float("{0:.2f}".format(sub_total))} {pay_ins.currency_type}'
+
+    # def get_balance(self):
+
+
+class Simple(models.Model):
+    name = models.CharField(max_length=20, null=True, blank=True)
+    age = models.IntegerField(null=True, blank=True)
+
+

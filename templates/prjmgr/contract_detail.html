@@ -16,7 +16,6 @@
             <p><strong>consignee:</strong>{% for consigneeIns in contract.consignee.all %}
                 {{ consigneeIns }} {% if not forloop.last %} -{% endif %}
             {% endfor %}</p>
-
             <p><strong>Comment:</strong> {{ contract.comment }}</p>
         </div>
     {% endif %}

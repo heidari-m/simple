@@ -3,17 +3,10 @@
     {% if user.is_authenticated %}
         <h1>Customer List</h1>
         <div style="margin-left: 20px;margin-top: 20px">
-            {% if customer_list %}
+            {% if table %}
                 <ul>
-                    {% for customer in customer_list %}
-                        <li>
-                            <a href="{{ customer.get_absolute_url }}">{{ customer.name }}</a>
-                            ({{ customer.phone_1 }})
-                            {% if perms.prjmgr.view_customer %}
-                                - <a href="{% url 'customer_delete' customer.id %}">Delete</a>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
+                    {% load django_tables2 %}
+                    {% render_table table %}
                 </ul>
             {% else %}
                 <p>There are no Customers.</p>
@@ -21,3 +14,5 @@
         </div>
     {% endif %}
 {% endblock %}
+
+

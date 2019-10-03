@@ -3,19 +3,10 @@
     {% if user.is_authenticated %}
         <h1>Contract List</h1>
         <div style="margin-left: 20px;margin-top: 20px">
-            {% if contract_list %}
+            {% if table %}
                 <ul>
-                    {% for contract in contract_list %}
-                        <li>
-                            <a href="{{ contract.get_absolute_url }}">{{ contract.id }}</a>
-                            ({{ contract.initiation_date }})
-                            {{ contract.customer }}
-                            -Total Paid: {{ contract.get_payments }}
-                            {% if perms.prjmgr.delete_contract %}
-                                - <a href="{% url 'contract_delete' contract.id %}">Delete</a>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
+                    {% load django_tables2 %}
+                    {% render_table table %}
                 </ul>
             {% else %}
                 <p>There are no Contract.</p>
