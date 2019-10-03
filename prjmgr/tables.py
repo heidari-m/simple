@@ -1,5 +1,3 @@
-from msilib import text
-
 import django_tables2 as tables
 from django_tables2.utils import A
 from .models import Customer, Payment, Shipping, BillOfLading, Operation, Contract
