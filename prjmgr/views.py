@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponse
 from django_pandas.io import read_frame
 from django_tables2 import SingleTableView, RequestConfig
-from .tables import CustomerTable, PaymentTable, BillOfLadingTable, OperationTable, ContractTable#, SimpleTable
+from .tables import CustomerTable, PaymentTable, BillOfLadingTable, OperationTable, StorageBalanceTable, ContractTable#, SimpleTable
 
 
 # import prjmgr.inventory
@@ -189,6 +189,22 @@ def BalanceStorageView(request):
 
 class OperationListView(LoginRequiredMixin, generic.ListView):
     model = Operation
+
+
+def storage_balance_view(request):
+    data = list(Operation.objects.values())
+    balance = 0
+    for i in data:
+        if (i['operation_type'] == 'tank_in'):
+            balance += i['amount_mt']
+            i.update({'id':i['id'],'amount_in':i['amount_mt'], 'balance':balance})
+        else:
+            balance -= i['amount_mt']
+            i.update({'id':i['id'],'amount_out':i['amount_mt'], 'balance':balance})
+
+    # data = [{'tank_in':50},{'tank_in':70},{'tank_out':30},{'tank_in':20}]
+    table = StorageBalanceTable(data)
+    return render(request, 'prjmgr/operation_list.html',{'table': table})
 
 
 class OperationTableView(SingleTableView):

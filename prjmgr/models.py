@@ -140,8 +140,8 @@ class Product(models.Model):
   pdobjects = DataFrameManager()  # Pandas-Enabled Manager
 class Operation(models.Model):
     date = models.DateField(null=True, blank=True)
-    TYPE = (('in', 'IN'),('o','OUT'))
-    operation_type = models.CharField(max_length=2, choices=TYPE)
+    TYPE = (('tank_in', 'IN'),('tank_out','OUT'))
+    operation_type = models.CharField(max_length=8, choices=TYPE)
     amount_mt = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     amount_m3 = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     objects = models.Manager()
