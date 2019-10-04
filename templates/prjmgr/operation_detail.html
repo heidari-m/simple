@@ -5,6 +5,7 @@
         <h1>Operation: {{ operation.id }}</h1>
         {% if perms.prjmgr.change_operation %}
             <a href="{% url 'operation_update' operation.id %}">Update</a>
+            <a href="{% url 'operation_delete' operation.id %}"> - Delete</a>
         {% endif %}
         <br/>
         <div style="margin-left: 20px;margin-top: 20px">

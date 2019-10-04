@@ -7,15 +7,6 @@
                 <ul>
                     {% load django_tables2 %}
                     {% render_table table %}
-                    {#                    {% for payIns in object_list %}#}
-                    {#                        <li>#}
-                    {#                            <a href="{{ payIns.get_absolute_url }}">{{ payIns.customer }}</a> ({{ payIns.contract }})#}
-                    {#                            - {{ payIns.amountCurrency }}#}
-                    {#                            {% if perms.prjmgr.delete_payment %}#}
-                    {#                                - <a href="{% url 'payment_delete' payIns.id %}">Delete</a>#}
-                    {#                            {% endif %}#}
-                    {#                        </li>#}
-                    {#                    {% endfor %}#}
                 </ul>
             {% else %}
                 <p>There are no Payments.</p>

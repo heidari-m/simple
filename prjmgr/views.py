@@ -26,6 +26,7 @@ def index(request):
     return render(request, 'prjmgr/index.html', context=context)
 
 
+@login_required
 def contract_list(request):
     queryset = Contract.objects.all()
     table = ContractTable(queryset)
@@ -76,6 +77,7 @@ class ContractDelete(LoginRequiredMixin, generic.DeleteView):
         return super(ContractDelete, self).dispatch(request, *args, **kwargs)
 
 
+@login_required
 def customer_list(request):
     queryset = Customer.objects.all()
     table = CustomerTable(queryset)
@@ -118,10 +120,13 @@ class CustomerDelete(LoginRequiredMixin, generic.DeleteView):
         return super(CustomerDelete, self).dispatch(request, *args, **kwargs)
 
 
+@login_required
 def payment_list(request):
     queryset = Payment.objects.all()
     table = PaymentTable(queryset)
     RequestConfig(request).configure(table)
+    if not request.user.has_perm('prjmgr.delete_payment'):
+        return HttpResponseForbidden()
     return render(request, 'prjmgr/payment_list.html', {'table': table})
 
 

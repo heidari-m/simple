@@ -5,6 +5,7 @@
         <h1>Contract Number: {{ contract.id }}</h1>
         {% if perms.prjmgr.change_contract %}
             <a href="{% url 'contract_update' contract.id %}">Update</a>
+            <a href="{% url 'contract_delete' contract.id %}"> - Delete</a>
         {% endif %}
         <br/>
         <div style="margin-left: 20px;margin-top: 20px">

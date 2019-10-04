@@ -1,6 +1,7 @@
 import django_tables2 as tables
 from django_tables2.utils import A
 from .models import Customer, Payment, Shipping, BillOfLading, Operation, Contract
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class CustomerTable(tables.Table):
@@ -11,7 +12,7 @@ class CustomerTable(tables.Table):
         fields = ('name', 'commercial_id_number', 'phone_1', 'ceo')
 
 
-class PaymentTable(tables.Table):
+class PaymentTable(LoginRequiredMixin, tables.Table):
     payment_number = tables.LinkColumn('payment-detail', text=lambda record: record.payment_number, args=[A('pk')])
     class Meta:
         model = Payment

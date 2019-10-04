@@ -4,6 +4,7 @@
     <h1>Customer: {{ customer.name }}</h1>
     {% if perms.prjmgr.view_customer %}
         <a href="{% url 'customer_update' customer.id %}">Update</a>
+        <a href="{% url 'customer_delete' customer.id %}"> - Delete</a>
     {% endif %}
     <div style="margin-left: 20px;margin-top: 20px">
 

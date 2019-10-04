@@ -4,6 +4,7 @@
     <h1>Payment Number {{ payment.payment_number }}: {{ payment.payment_date }}</h1>
     {% if perms.prjmgr.change_payment %}
         <a href="{% url 'payment_update' payment.id %}">Update</a>
+        <a href="{% url 'payment_delete' payment.id %}"> - Delete</a>
     {% endif %}
     <br/>
     <div style="margin-left: 20px;margin-top: 20px">
