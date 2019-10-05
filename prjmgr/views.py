@@ -38,6 +38,9 @@ class ContractDetailView(LoginRequiredMixin, generic.DetailView):
     model = Contract
     slug_field = 'id'
     slug_url_kwarg = 'C_No'
+    # def delivery_vs_payment(self):
+    #     qs = Contract.get_payments(self)
+    #     # table =
 
 
 class ContractCreate(LoginRequiredMixin, generic.CreateView):
@@ -246,4 +249,3 @@ class OperationDeleteView(LoginRequiredMixin, generic.DeleteView):
         if not request.user.has_perm('prjmgr.delete_operation'):
             return HttpResponseForbidden()
         return super(OperationDeleteView, self).dispatch(request, *args, **kwargs)
-
