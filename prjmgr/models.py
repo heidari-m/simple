@@ -205,7 +205,8 @@ class Contract(models.Model):
             return 'None'
         for pay_ins in self.payment_set.all():
             sub_total += pay_ins.amount
-        return f'{float("{0:.2f}".format(sub_total))} {pay_ins.currency_type}'
+        # return f'{float("{0:.2f}".format(sub_total))} {pay_ins.currency_type}'
+        return f'{"{:,.2f}".format(sub_total)} {pay_ins.currency_type}'
 
     def get_payments_detail(self):
         payment_dict = dict()

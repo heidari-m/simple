@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'bootstrap4',
     'jquery',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,5 @@ STATICFILES_DIRS = [
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+USE_THOUSAND_SEPARATOR = True

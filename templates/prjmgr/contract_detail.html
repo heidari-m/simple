@@ -1,5 +1,5 @@
 {% extends "prjmgr/base_generic.html" %}
-
+{% load humanize %}
 {% block content %}
     {% if user.is_authenticated %}
         <h1>Contract Number: {{ contract.id }}</h1>
@@ -12,15 +12,14 @@
             <p><strong>Customer:</strong> <a
                     href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
                 <br><strong>Contract Currency:</strong> {{ contract.contract_currency }}
-                <br><strong>Contract Amount:</strong> {{ contract.contract_amount_mt }} MT
-                <br><strong>Contractual Price per
-                    MT:</strong> {{ contract.unit_price }} {{ contract.contract_currency }}
+                <br><strong>Contract Amount:</strong> {{ contract.contract_amount_mt|intcomma }} MT
+                <br><strong>Contractual Price per MT:</strong> {{ contract.unit_price|intcomma }} {{ contract.contract_currency }}
                 <br><strong>Financial Obligor:</strong>
                 {% for consigneeIns in contract.consignee.all %}
                     {{ consigneeIns }} {% if not forloop.last %} -{% endif %}
                 {% endfor %}
                 {% load multiply %}
-                <br><strong>Contract Value:</strong> {{ contract.contract_amount_mt | multiply:contract.unit_price |floatformat:4 }}
+                <br><strong>Contract Value:</strong> {{ contract.contract_amount_mt | multiply:contract.unit_price |floatformat:4 |intcomma }}
                 <br><strong>Comment:</strong> {{ contract.comment }}</p>
         </div>
         <div>
