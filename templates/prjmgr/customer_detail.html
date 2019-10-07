@@ -7,7 +7,6 @@
         <a href="{% url 'customer_delete' customer.id %}"> - Delete</a>
     {% endif %}
     <div style="margin-left: 20px;margin-top: 20px">
-
         <p><strong>Address:</strong> {{ customer.address }}</p>
         <p><strong>Commercial ID:</strong> {{ customer.commercial_id_number }}</p>
         <p><strong>Phone:</strong> {{ customer.phone_1 }}</p>
@@ -15,22 +14,12 @@
         <hr>
         <p><strong>Contracts</strong></p>
         <p>
-
             {% for contractIns in customer.contract_set.all %}
                 <a href={% url 'contract-detail' contractIns.id %}> {{ contractIns.contract_number }}</a>
                 <br/>Contract Date: {{ contractIns.initiation_date }} and price: {{ contractIns.unit_price }}
                 {{ contractIns.contract_currency }}
                 {% if not forloop.last %} - {% endif %}
-
             {% endfor %}
-            {#            {% for bookIns in author.book_set.all %}#}
-            {#                <a href={% url 'book-detail' bookIns.id %}>{{ bookIns.title }}</a> ({{ bookIns.id }})#}
-            {#                <br/>{{ bookIns.summary }}#}
-            {#                {% if not forloop.last %} -#}
-            {#                {% endif %}#}
-            {#                <br/>#}
-            {#            {% endfor %}#}
-
         </p>
     </div>
     <p></p>

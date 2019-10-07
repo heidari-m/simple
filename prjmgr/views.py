@@ -9,8 +9,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponse
 from django_pandas.io import read_frame
-from django_tables2 import SingleTableView, RequestConfig
-from .tables import CustomerTable, PaymentTable, BillOfLadingTable, OperationTable, StorageBalanceTable, ContractTable#, SimpleTable
+from django_tables2 import SingleTableView, RequestConfig, SingleTableMixin, MultiTableMixin
+from .tables import CustomerTable, PaymentTable, BillOfLadingTable, OperationTable, StorageBalanceTable, \
+    ContractTable, ContractPaymentTable  # , SimpleTable
 
 
 # import prjmgr.inventory
@@ -34,13 +35,27 @@ def contract_list(request):
     return render(request, 'prjmgr/contract_list.html', {'table': table})
 
 
-class ContractDetailView(LoginRequiredMixin, generic.DetailView):
+class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView):
     model = Contract
     slug_field = 'id'
     slug_url_kwarg = 'C_No'
-    # def delivery_vs_payment(self):
-    #     qs = Contract.get_payments(self)
-    #     # table =
+
+    def get_context_data(self, **kwargs):
+        qs = Payment.objects.filter(contract=self.kwargs['C_No']).defer('id','customer')
+        context = super().get_context_data(**kwargs)
+        # context['table'] = qs
+        context['table'] = ContractPaymentTable(qs)
+        return context
+
+
+
+
+
+
+# class ContractDetailView2(LoginRequiredMixin, generic.DetailView, generic.TemplateView):
+#     model = Contract
+#     slug_field = 'id'
+#     slug_url_kwarg = 'C_Do'
 
 
 class ContractCreate(LoginRequiredMixin, generic.CreateView):
@@ -200,14 +215,14 @@ def storage_balance_view(request):
     for i in data:
         if (i['operation_type'] == 'tank_in'):
             balance += i['amount_mt']
-            i.update({'id':i['id'],'amount_in':i['amount_mt'], 'balance':balance})
+            i.update({'id': i['id'], 'amount_in': i['amount_mt'], 'balance': balance})
         else:
             balance -= i['amount_mt']
-            i.update({'id':i['id'],'amount_out':i['amount_mt'], 'balance':balance})
+            i.update({'id': i['id'], 'amount_out': i['amount_mt'], 'balance': balance})
 
     # data = [{'tank_in':50},{'tank_in':70},{'tank_out':30},{'tank_in':20}]
     table = StorageBalanceTable(data)
-    return render(request, 'prjmgr/operation_list.html',{'table': table})
+    return render(request, 'prjmgr/operation_list.html', {'table': table})
 
 
 class OperationTableView(SingleTableView):

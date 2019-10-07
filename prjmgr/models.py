@@ -138,6 +138,8 @@ class Product(models.Model):
   product_name=models.TextField()
   objects = models.Manager()
   pdobjects = DataFrameManager()  # Pandas-Enabled Manager
+
+
 class Operation(models.Model):
     date = models.DateField(null=True, blank=True)
     TYPE = (('tank_in', 'IN'),('tank_out','OUT'))
@@ -205,6 +207,14 @@ class Contract(models.Model):
             sub_total += pay_ins.amount
         return f'{float("{0:.2f}".format(sub_total))} {pay_ins.currency_type}'
 
+    def get_payments_detail(self):
+        payment_dict = dict()
+        if not self.payment_set.all():
+            return 'None'
+        return self.payment_set.all()
+        # for pay_ins in self.payment_set.all():
+        #     payment_dict.update({pay_ins.id:pay_ins.amount})
+        # return f'{float("{0:.2f}".format(sub_total))} {pay_ins.currency_type}'
     # def get_balance(self):
 
 

@@ -12,12 +12,19 @@
             <p><strong>Customer:</strong> <a
                     href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
             </p>
-            <p><strong>Contract Amount:</strong> {{ contract.contract_amount_mt }}</p>
-            <p><strong>Price:</strong> {{ contract.unit_price }}</p>
-            <p><strong>consignee:</strong>{% for consigneeIns in contract.consignee.all %}
+            <p><strong>Contract Currency:</strong> {{ contract.contract_currency }}</p>
+            <p><strong>Contract Amount:</strong> {{ contract.contract_amount_mt }} MT</p>
+            <p><strong>Contractual Price per MT:</strong> {{ contract.unit_price }} {{ contract.contract_currency }}</p>
+            <p><strong>Financial Obligor:</strong>
+                {% for consigneeIns in contract.consignee.all %}
                 {{ consigneeIns }} {% if not forloop.last %} -{% endif %}
             {% endfor %}</p>
+            <P><strong>Contract Value:</strong> {% widthratio contract.contract_amount_mt 2 contract.unit_price %}</P>
             <p><strong>Comment:</strong> {{ contract.comment }}</p>
+        </div>
+        <div>
+            {% load django_tables2 %}
+            {% render_table table %}
         </div>
     {% endif %}
 {% endblock %}

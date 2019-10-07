@@ -4,7 +4,7 @@ from .models import Customer, Payment, Shipping, BillOfLading, Operation, Contra
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class CustomerTable(tables.Table):
+class CustomerTable(LoginRequiredMixin, tables.Table):
     name = tables.LinkColumn('customer-detail', text=lambda record: record.name, args=[A('pk')])
 
     class Meta:
@@ -18,6 +18,7 @@ class StorageBalanceTable(tables.Table):
     amount_in = tables.Column('IN', orderable=False)
     amount_out = tables.Column('OUT', orderable=False)
     balance = tables.Column('Balance', orderable=False)
+
     class Meta:
         template_name = 'django_tables2/bootstrap4.html'
 
@@ -29,6 +30,11 @@ class PaymentTable(LoginRequiredMixin, tables.Table):
         model = Payment
         template_name = 'django_tables2/bootstrap4.html'
         fields = ('id', 'payment_number', 'payment_date', 'customer', 'amount', 'currency_type')
+
+
+class ContractPaymentTable(PaymentTable):
+    class Meta(PaymentTable.Meta):
+        exclude = ('id', 'customer')
 
 
 class BillOfLadingTable(tables.Table):
@@ -51,3 +57,4 @@ class ContractTable(tables.Table):
         model = Contract
         template_name = 'django_tables2/bootstrap4.html'
         fields = ('id', 'initiation_date', 'customer', 'get_payments')
+
