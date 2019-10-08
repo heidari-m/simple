@@ -109,8 +109,9 @@ class BillOfLading(models.Model):
     BL_number = models.CharField(max_length=25, null=True, blank=True)
     contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True )
     shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
-    receipnt = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    recipient = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     amount = models.DecimalField(max_digits=20, decimal_places=4)
+    released = models.BooleanField(null=True,blank=True,default=False)
 
     def __str__(self):
         return f'{self.BL_number}'

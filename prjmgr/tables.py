@@ -41,6 +41,7 @@ class ContractPaymentTable(PaymentTable):
 
 
 class BillOfLadingTable(tables.Table):
+
     class Meta:
         model = BillOfLading
         template_name = 'django_tables2/bootstrap4.html'
@@ -56,6 +57,7 @@ class OperationTable(tables.Table):
 class ContractOperationTable(OperationTable):
     class Meta(OperationTable.Meta):
         exclude = ('id','customer','contract','customs_clearance_number','operation_type','amount_m3')
+
 
 class TmpTable(tables.Table):
     # date = tables.DateColumn()
