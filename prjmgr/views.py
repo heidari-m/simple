@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .models import Contract, Customer, Payment, Currency, Delivery, Shipping, BillOfLading, Storage, \
-    Operation, Simple, Product  # , BalanceStorage
+    Operation, Simple  # , BalanceStorage
 from django.db.models import Sum
 from prjmgr import inventory
 from django.urls import reverse_lazy
@@ -264,11 +264,13 @@ class OperationDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 @login_required()
 def shipping_delivery_view(request):
-    joined_data = dict()
-    data = list(Shipping.objects.values())
-    for i in data:
-        joined_data.update({'date': i['arrival_date'] , 'amount':i['amount_metric_ton']})
-    table = ShippingDeliveryTable(joined_data)
+    qs = list(Shipping.objects.all().values('date','amount_metric_ton').union(Delivery.objects.all().values('date','amount_metric_ton')))
+    table = ShippingDeliveryTable(qs)
+    # joined_data = dict()
+    # data = list(Shipping.objects.values())
+    # for i in data:
+    #     joined_data.update({'date': i['arrival_date'] , 'amount':i['amount_metric_ton']})
+    # table = ShippingDeliveryTable(joined_data)
     return render(request, 'prjmgr/shipping_delivery.html', {'table': table})
 
 # class ShippingDelivery(LoginRequiredMixin, generic.ListView):

@@ -93,6 +93,8 @@ class Shipping(models.Model):
     depart_date = models.DateField(null=True, blank=True)
     arrival_date = models.DateField(null=True, blank=True)
     contract_number = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
+    TYPE = (('tank_in', 'IN'), ('tank_out', 'OUT'))
+    operation_type = models.CharField(max_length=8, choices=TYPE)
     amount_metric_ton = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     amount_cubic_meter = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     number_of_BL = models.IntegerField()
@@ -118,6 +120,8 @@ class Delivery(models.Model):
     contract_number = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
     billoflading = models.ForeignKey(BillOfLading, on_delete=models.SET_NULL, null=True, blank=True)
     customs_clearance_number = models.IntegerField(null=True, blank=True)
+    TYPE = (('tank_in', 'IN'), ('tank_out', 'OUT'))
+    operation_type = models.CharField(max_length=8, choices=TYPE)
     amount_metric_ton = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     storage = models.ForeignKey(Storage, on_delete=models.SET_NULL, null=True, blank=True)
     shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
@@ -135,27 +139,18 @@ class Delivery(models.Model):
 
     get_vessel_name.short_description = "Vessel name"
 
-from django_pandas.managers import DataFrameManager
-class Product(models.Model):
-  product_name=models.TextField()
-  objects = models.Manager()
-  pdobjects = DataFrameManager()  # Pandas-Enabled Manager
-
 
 class Operation(models.Model):
     date = models.DateField(null=True, blank=True)
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
+    shipping = models.ForeignKey('Shipping', on_delete=models.SET_NULL, null=True, blank=True)
+    billoflading = models.ManyToManyField(BillOfLading, null=True, blank=True)
+    customs_clearance_number = models.IntegerField(null=True, blank=True)
     TYPE = (('tank_in', 'IN'),('tank_out','OUT'))
     operation_type = models.CharField(max_length=8, choices=TYPE)
     amount_mt = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     amount_m3 = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    objects = models.Manager()
-    pdobjects = DataFrameManager()
-
-    # def get_context_data(self, *args, **kwargs):
-    #     qs = Operation.objects.all()
-    #     df = read_frame(qs)
-    #     # context = {'ops': df}
-    #     return HttpResponse(df.to_html())
 
 
 class Contract(models.Model):

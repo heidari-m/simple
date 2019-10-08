@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contract, Customer, Payment, Currency, Delivery, Shipping, BillOfLading, Storage, Operation, Product#, BalanceStorage # ContractInstance
+from .models import Contract, Customer, Payment, Currency, Delivery, Shipping, BillOfLading, Storage, Operation #, BalanceStorage # ContractInstance
 from django.contrib.auth.models import Permission
 
 
@@ -65,9 +65,5 @@ class PaymentAdmin(admin.ModelAdmin):
 #     # pass
 
 @admin.register(Operation)
-class PaymentAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(Product)
 class PaymentAdmin(admin.ModelAdmin):
     pass

@@ -61,8 +61,7 @@ class ContractTable(tables.Table):
 
 class ShippingDeliveryTable(tables.Table):
     date = tables.DateColumn()
-    amount = tables.Column('In',orderable=False)
-
+    amount_metric_ton = tables.Column('amount_metric_ton',orderable=False)
     class Meta:
         template_name = 'django_tables2/bootstrap4.html'
 
