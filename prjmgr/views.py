@@ -48,6 +48,7 @@ class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView
         # context['table2'] = ContractOperationTable(qs2)
         qs3 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out').values('customs_clearance_number').annotate(Sum('amount_mt'))
         context['table3'] = TmpTable(qs3)
+        qs4 = BillOfLading.objects.filter(contract=self.kwargs['C_No'])
         return context
 
 
