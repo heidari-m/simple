@@ -82,6 +82,7 @@ class Storage(models.Model):
 
 class Shipping(models.Model):
     trip_number = models.CharField(unique=True, max_length=11)
+    date = models.DateField(null=True, blank=True)
     VESSELS = (
         ('g', 'Geroii Rosii Pyatnitskyh'), ('a', 'Azeri Karabakh'), ('m', 'Marshal Tukhachevskiy'),
         ('d', 'Dahi ByulByul'), ('n', 'Neatis'))
@@ -114,9 +115,10 @@ class Delivery(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateField(null=True, blank=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    contract_number = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
     billoflading = models.ForeignKey(BillOfLading, on_delete=models.SET_NULL, null=True, blank=True)
     customs_clearance_number = models.IntegerField(null=True, blank=True)
-    delivered_amount = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
+    amount_metric_ton = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     storage = models.ForeignKey(Storage, on_delete=models.SET_NULL, null=True, blank=True)
     shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
 

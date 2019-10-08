@@ -35,4 +35,7 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                path('mets/', views.OperationTableView.as_view(), name='met-view'),
                # path('dev/', views.delivery_vs_payment, name='dev-view'),
                # path('simpl/', views.simple_list, name='simpl'),
+
+               path('shipdelivery/', views.shipping_delivery_view, name='shipping-delivery'),
+
                ]

@@ -11,7 +11,7 @@ from django.http import HttpResponseForbidden, HttpResponse
 from django_pandas.io import read_frame
 from django_tables2 import SingleTableView, RequestConfig, SingleTableMixin, MultiTableMixin
 from .tables import CustomerTable, PaymentTable, BillOfLadingTable, OperationTable, StorageBalanceTable, \
-    ContractTable, ContractPaymentTable  # , SimpleTable
+    ContractTable, ContractPaymentTable, ShippingDeliveryTable  # , SimpleTable
 
 
 # import prjmgr.inventory
@@ -46,10 +46,6 @@ class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView
         # context['table'] = qs
         context['table'] = ContractPaymentTable(qs)
         return context
-
-
-
-
 
 
 # class ContractDetailView2(LoginRequiredMixin, generic.DetailView, generic.TemplateView):
@@ -264,3 +260,15 @@ class OperationDeleteView(LoginRequiredMixin, generic.DeleteView):
         if not request.user.has_perm('prjmgr.delete_operation'):
             return HttpResponseForbidden()
         return super(OperationDeleteView, self).dispatch(request, *args, **kwargs)
+
+
+@login_required()
+def shipping_delivery_view(request):
+    joined_data = dict()
+    data = list(Shipping.objects.values())
+    for i in data:
+        joined_data.update({'date': i['arrival_date'] , 'amount':i['amount_metric_ton']})
+    table = ShippingDeliveryTable(joined_data)
+    return render(request, 'prjmgr/shipping_delivery.html', {'table': table})
+
+# class ShippingDelivery(LoginRequiredMixin, generic.ListView):

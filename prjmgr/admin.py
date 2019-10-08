@@ -43,7 +43,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
 @admin.register(Delivery)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('billoflading','get_vessel_name','customer','delivered_amount')
+    list_display = ('billoflading','get_vessel_name','customer','amount_metric_ton')
 
 @admin.register(Shipping)
 class PaymentAdmin(admin.ModelAdmin):

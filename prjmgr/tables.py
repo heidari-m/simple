@@ -58,3 +58,11 @@ class ContractTable(tables.Table):
         template_name = 'django_tables2/bootstrap4.html'
         fields = ('id', 'initiation_date', 'customer', 'get_payments')
 
+
+class ShippingDeliveryTable(tables.Table):
+    date = tables.DateColumn()
+    amount = tables.Column('In',orderable=False)
+
+    class Meta:
+        template_name = 'django_tables2/bootstrap4.html'
+
