@@ -106,7 +106,7 @@ class Shipping(models.Model):
 
 class BillOfLading(models.Model):
     delivery_date = models.DateField(null=True, blank=True)
-    BL_number = models.CharField(max_length=20, null=True, blank=True)
+    BL_number = models.CharField(max_length=25, null=True, blank=True)
     shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
     receipnt = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     amount = models.DecimalField(max_digits=20, decimal_places=4)
