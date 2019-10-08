@@ -14,12 +14,15 @@ class CustomerTable(LoginRequiredMixin, tables.Table):
 
 
 class StorageBalanceTable(tables.Table):
+    id = tables.Column(linkify=('operation-detail', {'pk': tables.A('id')}))
     date = tables.DateColumn()
+    # id = tables.LinkColumn('operation-detail', text=lambda record: record.id, args=[A('pk')])
     amount_in = tables.Column('IN', orderable=False)
     amount_out = tables.Column('OUT', orderable=False)
     balance = tables.Column('Balance', orderable=False)
 
     class Meta:
+        # model = Operation
         template_name = 'django_tables2/bootstrap4.html'
 
 
@@ -47,6 +50,20 @@ class OperationTable(tables.Table):
     # id = tables.columns()
     class Meta:
         model = Operation
+        template_name = 'django_tables2/bootstrap4.html'
+
+
+class ContractOperationTable(OperationTable):
+    class Meta(OperationTable.Meta):
+        exclude = ('id','customer','contract','customs_clearance_number','operation_type','amount_m3')
+
+class TmpTable(tables.Table):
+    # date = tables.DateColumn()
+    # shipping = tables.Column()
+    customs_clearance_number = tables.Column()
+    amount_mt__sum = tables.Column()
+
+    class Meta:
         template_name = 'django_tables2/bootstrap4.html'
 
 

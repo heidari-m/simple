@@ -11,7 +11,7 @@ from django.http import HttpResponseForbidden, HttpResponse
 from django_pandas.io import read_frame
 from django_tables2 import SingleTableView, RequestConfig, SingleTableMixin, MultiTableMixin
 from .tables import CustomerTable, PaymentTable, BillOfLadingTable, OperationTable, StorageBalanceTable, \
-    ContractTable, ContractPaymentTable, ShippingDeliveryTable  # , SimpleTable
+    ContractTable, ContractPaymentTable, ContractOperationTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
 
 
 # import prjmgr.inventory
@@ -41,17 +41,14 @@ class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView
     slug_url_kwarg = 'C_No'
 
     def get_context_data(self, **kwargs):
-        qs = Payment.objects.filter(contract=self.kwargs['C_No']).defer('id','customer')
         context = super().get_context_data(**kwargs)
-        # context['table'] = qs
+        qs = Payment.objects.filter(contract=self.kwargs['C_No'])
         context['table'] = ContractPaymentTable(qs)
+        # qs2 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out')
+        # context['table2'] = ContractOperationTable(qs2)
+        qs3 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out').values('customs_clearance_number').annotate(Sum('amount_mt'))
+        context['table3'] = TmpTable(qs3)
         return context
-
-
-# class ContractDetailView2(LoginRequiredMixin, generic.DetailView, generic.TemplateView):
-#     model = Contract
-#     slug_field = 'id'
-#     slug_url_kwarg = 'C_Do'
 
 
 class ContractCreate(LoginRequiredMixin, generic.CreateView):

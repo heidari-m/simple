@@ -105,9 +105,11 @@ class Shipping(models.Model):
 
 
 class BillOfLading(models.Model):
+    delivery_date = models.DateField(null=True, blank=True)
     BL_number = models.CharField(max_length=20, null=True, blank=True)
     shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
-    weight = models.DecimalField(max_digits=20, decimal_places=4)
+    receipnt = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    amount = models.DecimalField(max_digits=20, decimal_places=4)
 
     def __str__(self):
         return f'{self.BL_number}'
@@ -145,12 +147,16 @@ class Operation(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
     shipping = models.ForeignKey('Shipping', on_delete=models.SET_NULL, null=True, blank=True)
-    billoflading = models.ManyToManyField(BillOfLading, null=True, blank=True)
+    billoflading = models.ForeignKey('BillOfLading',on_delete=models.SET_NULL, null=True, blank=True)
     customs_clearance_number = models.IntegerField(null=True, blank=True)
     TYPE = (('tank_in', 'IN'),('tank_out','OUT'))
     operation_type = models.CharField(max_length=8, choices=TYPE)
     amount_mt = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     amount_m3 = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular customer instance."""
+        return reverse('operation-detail', args=[str(self.id)])
 
 
 class Contract(models.Model):

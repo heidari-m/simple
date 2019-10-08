@@ -13,18 +13,23 @@
                     href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
                 <br><strong>Contract Currency:</strong> {{ contract.contract_currency }}
                 <br><strong>Contract Amount:</strong> {{ contract.contract_amount_mt|intcomma }} MT
-                <br><strong>Contractual Price per MT:</strong> {{ contract.unit_price|intcomma }} {{ contract.contract_currency }}
+                <br><strong>Contractual Price per
+                    MT:</strong> {{ contract.unit_price|intcomma }} {{ contract.contract_currency }}
                 <br><strong>Financial Obligor:</strong>
                 {% for consigneeIns in contract.consignee.all %}
                     {{ consigneeIns }} {% if not forloop.last %} -{% endif %}
                 {% endfor %}
                 {% load multiply %}
-                <br><strong>Contract Value:</strong> {{ contract.contract_amount_mt | multiply:contract.unit_price |floatformat:4 |intcomma }}
+                <br><strong>Contract
+                    Value:</strong> {{ contract.contract_amount_mt | multiply:contract.unit_price |floatformat:4 |intcomma }}
                 <br><strong>Comment:</strong> {{ contract.comment }}</p>
         </div>
         <div>
             {% load django_tables2 %}
             {% render_table table %}
+{#            {% render_table table2 %}#}
+            {% render_table table3 %}
+
         </div>
     {% endif %}
 {% endblock %}
