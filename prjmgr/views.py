@@ -43,7 +43,9 @@ class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         qs = Payment.objects.filter(contract=self.kwargs['C_No'])
+
         context['table'] = ContractPaymentTable(qs)
+
         # qs2 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out')
         # context['table2'] = ContractOperationTable(qs2)
         # qs3 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out').values('customs_clearance_number').annotate(Sum('amount_mt'))

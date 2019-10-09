@@ -53,12 +53,12 @@ class Payment(models.Model):
     payment_date = models.DateField(null=True, blank=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     amount = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    currency_type = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)
+    currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)
     rate_1_usd = models.DecimalField(max_digits=20, decimal_places=10, null=True, blank=True)
     comment = models.TextField(max_length=300, null=True, blank=True)
 
-    def __str__(self):
-        return f'{self.payment_number} - {self.customer.name} - ({self.amount} {self.currency_type})'
+    # def __str__(self):
+    #     return f'{self.payment_number} - {self.customer.name} - ({self.amount} {self.currency_type})'
 
     def amountCurrency(self):
         return f'{"{0:.2f}".format(self.amount)} {self.currency_type}'
@@ -167,7 +167,7 @@ class Contract(models.Model):
     id = models.CharField(primary_key=True, max_length=12)
     initiation_date = models.DateField(null=True, blank=True)
     unit_price = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    contract_currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True, blank=True)
+    currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True, blank=True)
     contract_amount_mt = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     # delivery_completion_date = models.DateField(null=True, blank=True)
     customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
