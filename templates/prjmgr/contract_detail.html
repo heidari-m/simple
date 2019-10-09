@@ -9,26 +9,41 @@
         {% endif %}
         <br/>
         <div style="margin-left: 20px;margin-top: 20px">
-            <p><strong>Customer:</strong> <a
-                    href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
-                <br><strong>Contract Currency:</strong> {{ contract.contract_currency }}
-                <br><strong>Contract Amount:</strong> {{ contract.contract_amount_mt|intcomma }} MT
-                <br><strong>Contractual Price per
-                    MT:</strong> {{ contract.unit_price|intcomma }} {{ contract.contract_currency }}
-                <br><strong>Financial Obligor:</strong>
-                {% for consigneeIns in contract.consignee.all %}
-                    {{ consigneeIns }} {% if not forloop.last %} -{% endif %}
-                {% endfor %}
-                {% load multiply %}
-                <br><strong>Contract
-                    Value:</strong> {{ contract.contract_amount_mt | multiply:contract.unit_price |floatformat:4 |intcomma }}
-                <br><strong>Comment:</strong> {{ contract.comment }}</p>
+            <table>
+                <tr>
+                    <td style="width: 30%">
+                        <p><strong>Customer:</strong> <a
+                                href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
+                            <br><strong>Contract Currency:</strong> {{ contract.contract_currency }}
+                            <br><strong>Contract Amount:</strong> {{ contract.contract_amount_mt|intcomma }} MT
+                            <br><strong>Contractual Price per
+                                MT:</strong> {{ contract.unit_price|intcomma }} {{ contract.contract_currency }}
+                            <br><strong>Financial Obligor:</strong>
+                            {% for consigneeIns in contract.consignee.all %}
+                                {{ consigneeIns }} {% if not forloop.last %} -{% endif %}
+                            {% endfor %}
+                            {% load multiply %}
+                            <br><strong>Contract
+                                Value:</strong> {{ contract.contract_amount_mt | multiply:contract.unit_price |floatformat:4 |intcomma }}
+                            <br><strong>Comment:</strong> {{ contract.comment }}</p>
+                    </td>
+                    <td style="width: 30%">
+                        <br><strong>Total Payment:</strong>
+                        <br><strong>Total Delivered (in MT):</strong> number <strong>Equal to:</strong> currency amount
+                        <br><strong>Deliverables:</strong>
+                        <br>some thing here
+                    </td>
+                </tr>
+            </table>
         </div>
         <div>
             {% load django_tables2 %}
-            {% render_table table %}
-{#            {% render_table table2 %}#}
-            {% render_table table4 %}
+            <p>
+            {% render_table table %}</p>
+            {#            {% render_table table2 %}#}
+            <br><hr>
+            <p>{% render_table table4 %}</p>
+
 
         </div>
     {% endif %}

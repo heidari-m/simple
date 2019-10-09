@@ -26,6 +26,12 @@ class StorageBalanceTable(tables.Table):
         template_name = 'django_tables2/bootstrap4.html'
 
 
+class SummingColumn(tables.Column):
+
+    def render_footer(self, bound_column, table):
+        return sum(bound_column.accessor.resolve(row) for row in table.data)
+
+
 class PaymentTable(LoginRequiredMixin, tables.Table):
     payment_number = tables.LinkColumn('payment-detail', text=lambda record: record.payment_number, args=[A('pk')])
 
@@ -36,15 +42,23 @@ class PaymentTable(LoginRequiredMixin, tables.Table):
 
 
 class ContractPaymentTable(PaymentTable):
+    amount = SummingColumn()
+
     class Meta(PaymentTable.Meta):
         exclude = ('id', 'customer')
 
 
 class BillOfLadingTable(tables.Table):
-
+    amount = SummingColumn()
     class Meta:
         model = BillOfLading
         template_name = 'django_tables2/bootstrap4.html'
+
+
+class ContractBillTable(BillOfLadingTable):
+
+    class Meta(BillOfLadingTable.Meta):
+        exclude = ('contract',)
 
 
 class OperationTable(tables.Table):
@@ -71,7 +85,7 @@ class TmpTable(tables.Table):
 
 class ContractTable(tables.Table):
     id = tables.LinkColumn('contract-detail', text=lambda record: record.id, args=[A('pk')])
-
+    get_payments = tables.Column(verbose_name='Payment')
     class Meta:
         model = Contract
         template_name = 'django_tables2/bootstrap4.html'

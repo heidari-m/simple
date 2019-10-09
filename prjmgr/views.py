@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden, HttpResponse
 from django_pandas.io import read_frame
 from django_tables2 import SingleTableView, RequestConfig, SingleTableMixin, MultiTableMixin
-from .tables import CustomerTable, PaymentTable, BillOfLadingTable, OperationTable, StorageBalanceTable, \
+from .tables import CustomerTable, PaymentTable, BillOfLadingTable, ContractBillTable, OperationTable, StorageBalanceTable, \
     ContractTable, ContractPaymentTable, ContractOperationTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
 
 
@@ -46,10 +46,10 @@ class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView
         context['table'] = ContractPaymentTable(qs)
         # qs2 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out')
         # context['table2'] = ContractOperationTable(qs2)
-        qs3 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out').values('customs_clearance_number').annotate(Sum('amount_mt'))
-        context['table3'] = TmpTable(qs3)
+        # qs3 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out').values('customs_clearance_number').annotate(Sum('amount_mt'))
+        # context['table3'] = TmpTable(qs3)
         qs4 = BillOfLading.objects.filter(contract=self.kwargs['C_No'])
-        context['table4'] = BillOfLadingTable(qs4)
+        context['table4'] = ContractBillTable(qs4)
         return context
 
 
