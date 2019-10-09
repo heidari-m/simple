@@ -14,7 +14,7 @@
                     <td style="width: 30%">
                         <p><strong>Customer:</strong> <a
                                 href="{% url 'customer-detail' contract.customer.pk %}">{{ contract.customer }}</a>
-                            <br><strong>Contract Currency:</strong> {{ contract.contract_currency }}
+                            <br><strong>Contract Currency:</strong> {{ contract.currency }}
                             <br><strong>Contract Amount:</strong> {{ contract.contract_amount_mt|intcomma }} MT
                             <br><strong>Contractual Price per
                                 MT:</strong> {{ contract.unit_price|intcomma }} {{ contract.contract_currency }}

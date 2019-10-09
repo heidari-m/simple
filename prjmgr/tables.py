@@ -34,15 +34,16 @@ class SummingColumn(tables.Column):
 
 class PaymentTable(LoginRequiredMixin, tables.Table):
     payment_number = tables.LinkColumn('payment-detail', text=lambda record: record.payment_number, args=[A('pk')])
+    amount_USD = SummingColumn()
 
     class Meta:
         model = Payment
         template_name = 'django_tables2/bootstrap4.html'
-        fields = ('id', 'payment_number', 'payment_date', 'customer', 'amount', 'currency_type')
+        fields = ('id', 'payment_number', 'payment_date', 'customer', 'amount', 'currency','amount_USD')
 
 
 class ContractPaymentTable(PaymentTable):
-    amount = SummingColumn()
+    amount_USD = SummingColumn()
 
     class Meta(PaymentTable.Meta):
         exclude = ('id', 'customer')
@@ -86,15 +87,26 @@ class TmpTable(tables.Table):
 class ContractTable(tables.Table):
     id = tables.LinkColumn('contract-detail', text=lambda record: record.id, args=[A('pk')])
     get_payments = tables.Column(verbose_name='Payment')
+
     class Meta:
         model = Contract
         template_name = 'django_tables2/bootstrap4.html'
         fields = ('id', 'initiation_date', 'customer', 'get_payments')
 
 
+class ShippingTable(tables.Table):
+    # id = tables.LinkColumn('shipment-detail', text=lambda record: record.id, args=[A('pk')])
+    trip_number = tables.LinkColumn('shipment-detail', text=lambda record: record.trip_number, args=[A('pk')])
+
+    class Meta:
+        model = Shipping
+        template_name = 'django_tables2/bootstrap4.html'
+
+
 class ShippingDeliveryTable(tables.Table):
     date = tables.DateColumn()
     amount_metric_ton = tables.Column('amount_metric_ton',orderable=False)
+
     class Meta:
         template_name = 'django_tables2/bootstrap4.html'
 

@@ -31,11 +31,14 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                path('operation/<int:pk>/update/', views.OperationUpdate.as_view(), name='operation_update'),
                path('operation/<int:pk>/delete/', views.OperationDeleteView.as_view(), name='operation_delete'),
 
+               path('shipments/', views.shipment_view, name='shipments'),
+               path('shipment/<slug:tNo>', views.ShipmentDetailView.as_view(), name='shipment-detail'),
+
                # path('mets/', views.operation_view, name='operation_view'),
                path('mets/', views.OperationTableView.as_view(), name='met-view'),
                # path('dev/', views.delivery_vs_payment, name='dev-view'),
                # path('simpl/', views.simple_list, name='simpl'),
 
-               path('shipdelivery/', views.shipping_delivery_view, name='shipping-delivery'),
+               # path('shipdelivery/', views.shipping_delivery_view, name='shipping-delivery'),
 
                ]

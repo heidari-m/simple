@@ -11,7 +11,7 @@ from django.http import HttpResponseForbidden, HttpResponse
 from django_pandas.io import read_frame
 from django_tables2 import SingleTableView, RequestConfig, SingleTableMixin, MultiTableMixin
 from .tables import CustomerTable, PaymentTable, BillOfLadingTable, ContractBillTable, OperationTable, StorageBalanceTable, \
-    ContractTable, ContractPaymentTable, ContractOperationTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
+    ContractTable, ContractPaymentTable, ContractOperationTable,ShippingTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
 
 
 # import prjmgr.inventory
@@ -43,9 +43,7 @@ class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         qs = Payment.objects.filter(contract=self.kwargs['C_No'])
-
         context['table'] = ContractPaymentTable(qs)
-
         # qs2 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out')
         # context['table2'] = ContractOperationTable(qs2)
         # qs3 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out').values('customs_clearance_number').annotate(Sum('amount_mt'))
@@ -206,6 +204,7 @@ class OperationListView(LoginRequiredMixin, generic.ListView):
     model = Operation
 
 
+@login_required()
 def storage_balance_view(request):
     data = list(Operation.objects.values())
     balance = 0
@@ -263,15 +262,26 @@ class OperationDeleteView(LoginRequiredMixin, generic.DeleteView):
         return super(OperationDeleteView, self).dispatch(request, *args, **kwargs)
 
 
-@login_required()
-def shipping_delivery_view(request):
-    qs = list(Shipping.objects.all().values('date','amount_metric_ton').union(Delivery.objects.all().values('date','amount_metric_ton')))
-    table = ShippingDeliveryTable(qs)
-    # joined_data = dict()
-    # data = list(Shipping.objects.values())
-    # for i in data:
-    #     joined_data.update({'date': i['arrival_date'] , 'amount':i['amount_metric_ton']})
-    # table = ShippingDeliveryTable(joined_data)
-    return render(request, 'prjmgr/shipping_delivery.html', {'table': table})
+# @login_required()
+# def shipping_delivery_view(request):
+#     qs = list(Shipping.objects.all().values('date','amount_metric_ton').union(Delivery.objects.all().values('date','amount_metric_ton')))
+#     table = ShippingDeliveryTable(qs)
+#     # joined_data = dict()
+#     # data = list(Shipping.objects.values())
+#     # for i in data:
+#     #     joined_data.update({'date': i['arrival_date'] , 'amount':i['amount_metric_ton']})
+#     # table = ShippingDeliveryTable(joined_data)
+#     return render(request, 'prjmgr/shipping_delivery.html', {'table': table})
 
-# class ShippingDelivery(LoginRequiredMixin, generic.ListView):
+
+def shipment_view(request):
+    table = ShippingTable(Shipping.objects.all())
+    return render(request, 'prjmgr/shipping_list.html', {'table':table})
+
+
+class ShipmentDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Shipping
+    slug_field = 'trip_number'
+    slug_url_kwarg = 'tNo'
+
+

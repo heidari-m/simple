@@ -9,7 +9,6 @@ from django_pandas.io import read_frame
 from django.http import HttpResponse
 
 
-
 # Create your models here.
 # class ContractInstance(models.Model):
 #     """Model representing a specific copy of a book (i.e. that can be borrowed from the library)."""
@@ -61,13 +60,16 @@ class Payment(models.Model):
     #     return f'{self.payment_number} - {self.customer.name} - ({self.amount} {self.currency_type})'
 
     def amountCurrency(self):
-        return f'{"{0:.2f}".format(self.amount)} {self.currency_type}'
+        return f'{"{0:.2f}".format(self.amount)} {self.currency}'
 
     amountCurrency.short_description = ('Amount')
 
     def get_absolute_url(self):
         """Returns the url to access a particular customer instance."""
         return reverse('payment-detail', args=[str(self.id)])
+
+    def amount_USD(self):
+        return float("{0:.3f}".format(self.amount / self.rate_1_usd))
 
 
 class Storage(models.Model):
@@ -81,7 +83,7 @@ class Storage(models.Model):
 
 
 class Shipping(models.Model):
-    trip_number = models.CharField(unique=True, max_length=11)
+    trip_number = models.CharField(unique=True, primary_key=True, max_length=11)
     date = models.DateField(null=True, blank=True)
     VESSELS = (
         ('g', 'Geroii Rosii Pyatnitskyh'), ('a', 'Azeri Karabakh'), ('m', 'Marshal Tukhachevskiy'),
@@ -102,6 +104,10 @@ class Shipping(models.Model):
 
     def __str__(self):
         return f'{self.trip_number} - {self.get_vessel_name_display()}'
+
+    def get_absolute_url(self):
+        """Returns the url to access a particular shipping instance."""
+        return reverse('shipment-detail', args=[str(self.trip_number)])
 
 
 class BillOfLading(models.Model):
