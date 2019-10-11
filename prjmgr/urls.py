@@ -31,8 +31,11 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                path('operation/<int:pk>/update/', views.OperationUpdate.as_view(), name='operation_update'),
                path('operation/<int:pk>/delete/', views.OperationDeleteView.as_view(), name='operation_delete'),
 
-               path('shipments/', views.shipment_view, name='shipments'),
-               path('shipment/<slug:tNo>', views.ShipmentDetailView.as_view(), name='shipment-detail'),
+               path('shipments/', views.shipping_view, name='shipments'),
+               path('shipment/<slug:tNo>', views.ShippingDetailView.as_view(), name='shipping-detail'),
+               path('shipment/create/', views.ShippingCreate.as_view(), name='shipping_create'),
+               path('shipment/<slug:tNo>/update/', views.ShippingUpdate.as_view(), name='shipping_update'),
+               path('shipment/<slug:tNo>/delete/', views.ShippingDelete.as_view(), name='shipping_delete'),
 
                # path('mets/', views.operation_view, name='operation_view'),
                path('mets/', views.OperationTableView.as_view(), name='met-view'),

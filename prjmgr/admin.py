@@ -37,25 +37,25 @@ class PaymentAdmin(admin.ModelAdmin):
 
 
 @admin.register(Currency)
-class PaymentAdmin(admin.ModelAdmin):
+class CurrencyAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Delivery)
-class PaymentAdmin(admin.ModelAdmin):
+class DeliveryAdmin(admin.ModelAdmin):
     list_display = ('billoflading','get_vessel_name','customer','amount_metric_ton')
 
 @admin.register(Shipping)
-class PaymentAdmin(admin.ModelAdmin):
+class ShippingAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(BillOfLading)
-class PaymentAdmin(admin.ModelAdmin):
+class BillOfLadingAdmin(admin.ModelAdmin):
     pass
 
 
 @admin.register(Storage)
-class PaymentAdmin(admin.ModelAdmin):
+class StorageAdmin(admin.ModelAdmin):
     pass
 
 
@@ -65,5 +65,5 @@ class PaymentAdmin(admin.ModelAdmin):
 #     # pass
 
 @admin.register(Operation)
-class PaymentAdmin(admin.ModelAdmin):
+class OperationAdmin(admin.ModelAdmin):
     pass

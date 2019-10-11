@@ -96,11 +96,12 @@ class ContractTable(tables.Table):
 
 class ShippingTable(tables.Table):
     # id = tables.LinkColumn('shipment-detail', text=lambda record: record.id, args=[A('pk')])
-    trip_number = tables.LinkColumn('shipment-detail', text=lambda record: record.trip_number, args=[A('pk')])
+    trip_number = tables.LinkColumn('shipping-detail', text=lambda record: record.trip_number, args=[A('pk')])
 
     class Meta:
         model = Shipping
         template_name = 'django_tables2/bootstrap4.html'
+        fields = ('trip_number','date','vessel_name','contract_number','amount_metric_ton','number_of_BL')
 
 
 class ShippingDeliveryTable(tables.Table):

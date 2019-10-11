@@ -107,7 +107,7 @@ class Shipping(models.Model):
 
     def get_absolute_url(self):
         """Returns the url to access a particular shipping instance."""
-        return reverse('shipment-detail', args=[str(self.trip_number)])
+        return reverse('shipping-detail', args=[str(self.trip_number)])
 
 
 class BillOfLading(models.Model):
@@ -134,7 +134,7 @@ class Delivery(models.Model):
     operation_type = models.CharField(max_length=8, choices=TYPE)
     amount_metric_ton = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     storage = models.ForeignKey(Storage, on_delete=models.SET_NULL, null=True, blank=True)
-    shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
+    # shipping = models.ForeignKey('Shipping', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         if self.shipping is None:

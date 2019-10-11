@@ -7,11 +7,12 @@ from prjmgr import inventory
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseForbidden, HttpResponse
+from django.http import HttpResponseForbidden, HttpResponse, HttpResponseRedirect
 from django_pandas.io import read_frame
 from django_tables2 import SingleTableView, RequestConfig, SingleTableMixin, MultiTableMixin
 from .tables import CustomerTable, PaymentTable, BillOfLadingTable, ContractBillTable, OperationTable, StorageBalanceTable, \
     ContractTable, ContractPaymentTable, ContractOperationTable,ShippingTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
+from django.forms import ModelForm, ValidationError
 
 
 # import prjmgr.inventory
@@ -68,9 +69,10 @@ class ContractUpdate(LoginRequiredMixin, generic.UpdateView):
     model = Contract
     slug_field = 'id'
     slug_url_kwarg = 'C_No'
-    fields = {'initiation_date', 'unit_price', 'contract_currency', 'contract_amount_mt', 'customer', 'proforma_number',
-              'consignee', 'status', 'effective_incoterm', 'delivery_port', 'payment_conditions', 'payment_status',
-              'compliance_review', 'comment'}
+    fields = '__all__'
+    # fields = {'initiation_date', 'unit_price', 'currency', 'contract_amount_mt', 'customer', 'proforma_number',
+    #           'consignee', 'status', 'effective_incoterm', 'delivery_port', 'payment_conditions', 'payment_status',
+    #           'compliance_review', 'comment'}
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm('prjmgr.change_contract'):
@@ -274,14 +276,80 @@ class OperationDeleteView(LoginRequiredMixin, generic.DeleteView):
 #     return render(request, 'prjmgr/shipping_delivery.html', {'table': table})
 
 
-def shipment_view(request):
+def shipping_view(request):
     table = ShippingTable(Shipping.objects.all())
     return render(request, 'prjmgr/shipping_list.html', {'table':table})
 
 
-class ShipmentDetailView(LoginRequiredMixin, generic.DetailView):
+class ShippingDetailView(LoginRequiredMixin, generic.DetailView):
     model = Shipping
     slug_field = 'trip_number'
     slug_url_kwarg = 'tNo'
 
 
+# class ShippingCreateForm(ModelForm):
+#     class Meta:
+#         model = Shipping
+#         fields = '__all__'
+#
+#     def __init__(self, *args, **kwargs):
+#         self.user = kwargs.pop('user')
+#         super(ShippingCreateForm, self).__init__(*args, **kwargs)
+#
+#     def clean_title(self):
+#         title = self.cleaned_data['title']
+#         if Shipping.objects.filter(user=self.user, title=title).exists():
+#             raise ValidationError('Error messeage')
+#         return title
+
+
+class ShippingCreate(LoginRequiredMixin, generic.CreateView):
+    model = Shipping
+    template_name = 'prjmgr/shipping_form.html'
+    # form_class = ShippingCreateForm
+    fields = '__all__'
+
+    # def form_valid(self, form):
+    #     self.object = form.save(commit=False)
+    #     self.object.user = self.request.user
+    #     self.object.save()
+    #     return HttpResponseRedirect(self.get_success_url())
+    #
+    # def get_initial(self, *args, **kwargs):
+    #     initial = super(ShippingCreate, self).get_initial(**kwargs)
+    #     initial['title'] = 'My Title'
+    #     return initial
+    #
+    # def get_form_kwargs(self, *args, **kwargs):
+    #     kwargs = super(ShippingCreate, self).get_form_kwargs(*args, **kwargs)
+    #     kwargs['user'] = self.request.user
+    #     return kwargs
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('prjmgr.add_shipping'):
+            return HttpResponseForbidden()
+        return super(ShippingCreate, self).dispatch(request, *args, **kwargs)
+
+
+class ShippingUpdate(LoginRequiredMixin, generic.UpdateView):
+    model = Shipping
+    slug_field = 'trip_number'
+    slug_url_kwarg = 'tNo'
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('prjmgr.change_shipping'):
+            return HttpResponseForbidden()
+        return super(ShippingUpdate, self).dispatch(request, *args, **kwargs)
+
+
+class ShippingDelete(LoginRequiredMixin, generic.DeleteView):
+    model = Shipping
+    slug_field = 'trip_number'
+    slug_url_kwarg = 'tNo'
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('prjmgr.delete_shipping'):
+            return HttpResponseForbidden()
+        return super(ShippingDelete, self).dispatch(request, *args, **kwargs)
