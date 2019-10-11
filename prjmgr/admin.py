@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Contract, Customer, Payment, Currency, Delivery, Shipping, BillOfLading, Storage, Operation #, BalanceStorage # ContractInstance
+from .models import Contract, Customer, Payment, Currency, Shipping, BillOfLading, Operation
 from django.contrib.auth.models import Permission
 
 
@@ -41,9 +41,9 @@ class CurrencyAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Delivery)
-class DeliveryAdmin(admin.ModelAdmin):
-    list_display = ('billoflading','get_vessel_name','customer','amount_metric_ton')
+# @admin.register(Delivery)
+# class DeliveryAdmin(admin.ModelAdmin):
+#     list_display = ('billoflading','get_vessel_name','customer','amount_metric_ton')
 
 @admin.register(Shipping)
 class ShippingAdmin(admin.ModelAdmin):
@@ -54,9 +54,9 @@ class BillOfLadingAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Storage)
-class StorageAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(Storage)
+# class StorageAdmin(admin.ModelAdmin):
+#     pass
 
 
 # @admin.register(BalanceStorage)

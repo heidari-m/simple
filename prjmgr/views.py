@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from .models import Contract, Customer, Payment, Currency, Delivery, Shipping, BillOfLading, Storage, \
-    Operation, Simple  # , BalanceStorage
+from .models import Contract, Customer, Payment, Currency, Shipping, BillOfLading, Operation
 from django.db.models import Sum
 from prjmgr import inventory
 from django.urls import reverse_lazy
@@ -24,7 +23,12 @@ def index(request):
     """View function for home page of site."""
 
     # Render the HTML template index.html with the data in the context variable
-    context = {'text': 'Simple contract manager', }
+    count_contracts = Contract.objects.all().count()
+    total_shipment = Shipping.objects.all().aggregate(Sum('amount_metric_ton'))
+    total_delivered = Operation.objects.filter(operation_type='tank_in').aggregate(Sum('amount_mt'))
+    context = {'count_contracts': count_contracts,
+               'total_shipment': total_shipment,
+               'total_delivered': total_delivered}
     return render(request, 'prjmgr/index.html', context=context)
 
 
@@ -223,10 +227,10 @@ def storage_balance_view(request):
     return render(request, 'prjmgr/operation_list.html', {'table': table})
 
 
-class OperationTableView(SingleTableView):
-    model = Operation
-    table_class = OperationTable
-    template_name = 'prjmgr/met_view.html'
+# class OperationTableView(SingleTableView):
+#     model = Operation
+#     table_class = OperationTable
+#     template_name = 'prjmgr/met_view.html'
 
 
 class OperationDetailView(LoginRequiredMixin, generic.DetailView):
@@ -276,6 +280,7 @@ class OperationDeleteView(LoginRequiredMixin, generic.DeleteView):
 #     return render(request, 'prjmgr/shipping_delivery.html', {'table': table})
 
 
+@login_required()
 def shipping_view(request):
     table = ShippingTable(Shipping.objects.all())
     return render(request, 'prjmgr/shipping_list.html', {'table':table})

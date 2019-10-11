@@ -22,7 +22,7 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                path('payment/<int:pk>/update/', views.PaymentUpdate.as_view(), name='payment_update'),
                path('payment/<int:pk>/delete/', views.PaymentDelete.as_view(), name='payment_delete'),
                # path('balances/', views.BalanceStorageView.as_view(), name='balances'),
-               path('storage/', views.BalanceStorageView, name='storage'),
+               # path('storage/', views.BalanceStorageView, name='storage'),
 
                # path('operations/', views.OperationListView.as_view(), name='operations'),
                path('operations/', views.storage_balance_view, name='operations'),
@@ -38,7 +38,7 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                path('shipment/<slug:tNo>/delete/', views.ShippingDelete.as_view(), name='shipping_delete'),
 
                # path('mets/', views.operation_view, name='operation_view'),
-               path('mets/', views.OperationTableView.as_view(), name='met-view'),
+               # path('mets/', views.OperationTableView.as_view(), name='met-view'),
                # path('dev/', views.delivery_vs_payment, name='dev-view'),
                # path('simpl/', views.simple_list, name='simpl'),
 

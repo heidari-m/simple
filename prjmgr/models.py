@@ -72,14 +72,13 @@ class Payment(models.Model):
         return float("{0:.3f}".format(self.amount / self.rate_1_usd))
 
 
-class Storage(models.Model):
-    id = models.CharField(primary_key=True, max_length=7)
-    capacity = models.DecimalField(max_digits=12, decimal_places=4, null=True, blank=True)
-
-    # shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return f'{self.id} {self.capacity}'
+# class Storage(models.Model):
+#     id = models.CharField(primary_key=True, max_length=7)
+#     capacity = models.DecimalField(max_digits=12, decimal_places=4, null=True, blank=True)
+#     # shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
+#
+#     def __str__(self):
+#         return f'{self.id} {self.capacity}'
 
 
 class Shipping(models.Model):
@@ -100,7 +99,7 @@ class Shipping(models.Model):
     amount_metric_ton = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     amount_cubic_meter = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     number_of_BL = models.IntegerField()
-    storage = models.ForeignKey(Storage, on_delete=models.SET_NULL, null=True, blank=True)
+    # storage = models.ForeignKey('Storage', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f'{self.trip_number} - {self.get_vessel_name_display()}'
@@ -114,8 +113,8 @@ class BillOfLading(models.Model):
     delivery_date = models.DateField(null=True, blank=True)
     BL_number = models.CharField(max_length=25, null=True, blank=True)
     contract = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True )
-    shipping = models.ForeignKey(Shipping, on_delete=models.SET_NULL, null=True, blank=True)
-    recipient = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    shipping = models.ForeignKey('Shipping', on_delete=models.SET_NULL, null=True, blank=True)
+    recipient = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, blank=True)
     amount = models.DecimalField(max_digits=20, decimal_places=4)
     released = models.BooleanField(null=True,blank=True,default=False)
 
@@ -123,31 +122,31 @@ class BillOfLading(models.Model):
         return f'{self.BL_number}'
 
 
-class Delivery(models.Model):
-    id = models.AutoField(primary_key=True)
-    date = models.DateField(null=True, blank=True)
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
-    contract_number = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
-    billoflading = models.ForeignKey(BillOfLading, on_delete=models.SET_NULL, null=True, blank=True)
-    customs_clearance_number = models.IntegerField(null=True, blank=True)
-    TYPE = (('tank_in', 'IN'), ('tank_out', 'OUT'))
-    operation_type = models.CharField(max_length=8, choices=TYPE)
-    amount_metric_ton = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
-    storage = models.ForeignKey(Storage, on_delete=models.SET_NULL, null=True, blank=True)
-    # shipping = models.ForeignKey('Shipping', on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        if self.shipping is None:
-            return 'Unknown'
-        # return f'{self.shipping.get_vessel_name_display()}'
-        return f'{self.shipping.get_vessel_name_display()} {self.billoflading.BL_number} {self.customer.name}'
-
-    def get_vessel_name(self):
-        if self.shipping is None:
-            return 'Unknown'
-        return f'{self.shipping.get_vessel_name_display()}'
-
-    get_vessel_name.short_description = "Vessel name"
+# class Delivery(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     date = models.DateField(null=True, blank=True)
+#     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+#     contract_number = models.ForeignKey('Contract', on_delete=models.SET_NULL, null=True, blank=True)
+#     billoflading = models.ForeignKey(BillOfLading, on_delete=models.SET_NULL, null=True, blank=True)
+#     customs_clearance_number = models.IntegerField(null=True, blank=True)
+#     TYPE = (('tank_in', 'IN'), ('tank_out', 'OUT'))
+#     operation_type = models.CharField(max_length=8, choices=TYPE)
+#     amount_metric_ton = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
+#     storage = models.ForeignKey(Storage, on_delete=models.SET_NULL, null=True, blank=True)
+#     # shipping = models.ForeignKey('Shipping', on_delete=models.SET_NULL, null=True, blank=True)
+#
+#     def __str__(self):
+#         if self.shipping is None:
+#             return 'Unknown'
+#         # return f'{self.shipping.get_vessel_name_display()}'
+#         return f'{self.shipping.get_vessel_name_display()} {self.billoflading.BL_number} {self.customer.name}'
+#
+#     def get_vessel_name(self):
+#         if self.shipping is None:
+#             return 'Unknown'
+#         return f'{self.shipping.get_vessel_name_display()}'
+#
+#     get_vessel_name.short_description = "Vessel name"
 
 
 class Operation(models.Model):
@@ -229,9 +228,5 @@ class Contract(models.Model):
         # return f'{float("{0:.2f}".format(sub_total))} {pay_ins.currency_type}'
     # def get_balance(self):
 
-
-class Simple(models.Model):
-    name = models.CharField(max_length=20, null=True, blank=True)
-    age = models.IntegerField(null=True, blank=True)
 
 
