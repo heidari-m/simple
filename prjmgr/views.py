@@ -347,7 +347,7 @@ class ShippingDelete(LoginRequiredMixin, generic.DeleteView):
     model = Shipping
     slug_field = 'trip_number'
     slug_url_kwarg = 'tNo'
-    fields = '__all__'
+    success_url = reverse_lazy('shipments')
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm('prjmgr.delete_shipping'):
