@@ -1,13 +1,13 @@
 {% extends 'prjmgr/base_generic.html' %}
-
+{% load humanize %}
 {% block content %}
     <h1>Welcome to Contract Manager</h1>
     <div style="margin-left: 20px;margin-top: 20px">
         <ul>
             <li>Today is the {% now "jS \o\f F" %}</li>
             <li>Number of contracts: {{ count_contracts }}</li>
-            <li>Total Weight Shipped: {{ total_shipment }} MT</li>
-            <li>Total Delivered Cargo: {{ total_delivered }} MT</li>
+            <li>Total Weight Shipped: {{ total_shipment|floatformat:3 }} MT</li>
+            <li>Total Delivered Cargo: {{ total_delivered|floatformat:3 }} MT</li>
         </ul>
     </div>
 {% endblock %}

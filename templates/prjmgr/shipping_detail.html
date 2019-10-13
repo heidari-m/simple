@@ -1,5 +1,20 @@
 {% extends "prjmgr/base_generic.html" %}
 {% load humanize %}
 {% block content %}
-
+<h1>Shipment Number {{ shipping.trip_number }}: {{ shipping.date }}</h1>
+    {% if perms.prjmgr.change_shipping %}
+        <a href="{% url 'shipping_update' shipping.trip_number %}">Update</a>
+        <a href="{% url 'shipping_delete' shipping.trip_number %}"> - Delete</a>
+    {% endif %}
+    <br/>
+    <div style="margin-left: 20px;margin-top: 20px">
+        <p><strong>Contract:</strong> <a
+                href="{% url 'contract-detail' shipping.contract_number %}">{{ shipping.contract_number }}</a></p>
+        <p><strong>Date:</strong> {{ shipping.date }}</p>
+        <p><strong>Vessel Name:</strong> {{ shipping.get_vessel_name_display }} - <strong>Status:</strong> {{ shipping.get_vessel_status_display }}</p>
+        <p><strong>Depart Date:</strong> {{ shipping.depart_date }} <strong> - Arrival Date:</strong> {{ shipping.arrival_date }}</p>
+        <p><strong>Cargo Weight:</strong> {{ shipping.amount_metric_ton }} (MT)
+        <br><strong>Volume:</strong> {{ shipping.amount_cubic_meter }} (M3)</p>
+        <p><strong>Number of bill of ladings:</strong> {{ shipping.number_of_BL }}</p>
+    </div>
 {% endblock %}

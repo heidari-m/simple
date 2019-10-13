@@ -48,6 +48,7 @@
                     <li><a href="{% url 'customers' %}">All Customers</a></li>
                     <li><a href="{% url 'payments' %}">All Payments</a></li>
                     <li><a href="{% url 'shipments' %}">All Shipments</a></li>
+                    <li><a href="{% url 'bls' %}">Bill of Lading list</a></li>
                     <li><a href="{% url 'operations' %}">Operations</a></li>
 {#                    <li><a href="{% url 'storage' %}">Tank Situation</a></li>#}
                 </ul>
@@ -58,6 +59,7 @@
                         <li><a href="{% url 'customer_create' %}">Create Customer</a></li>
                         <li><a href="{% url 'payment_create' %}">Create Payment</a></li>
                         <li><a href="{% url 'shipping_create' %}">Create Shipment</a></li>
+                        <li><a href="{% url 'bl_create' %}">Create BL</a></li>
                         <li><a href="{% url 'operation_create' %}">Create Operation</a></li>
                     </ul>
                 {% endif %}

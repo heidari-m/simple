@@ -1,0 +1,16 @@
+{% extends "prjmgr/base_generic.html" %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>BLs List</h1>
+        <div style="margin-left: 20px;margin-top: 20px">
+            {% if table %}
+                <ul>
+                    {% load django_tables2 %}
+                    {% render_table table %}
+                </ul>
+            {% else %}
+                <p>There are no BL.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

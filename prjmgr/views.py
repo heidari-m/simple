@@ -24,8 +24,8 @@ def index(request):
 
     # Render the HTML template index.html with the data in the context variable
     count_contracts = Contract.objects.all().count()
-    total_shipment = Shipping.objects.all().aggregate(Sum('amount_metric_ton'))
-    total_delivered = Operation.objects.filter(operation_type='tank_in').aggregate(Sum('amount_mt'))
+    total_shipment = Shipping.objects.all().aggregate(Sum('amount_metric_ton')).get('amount_metric_ton__sum') or 0
+    total_delivered = Operation.objects.filter(operation_type='tank_in').aggregate(Sum('amount_mt')).get('amount_ton__sum') or 0
     context = {'count_contracts': count_contracts,
                'total_shipment': total_shipment,
                'total_delivered': total_delivered}
@@ -358,3 +358,44 @@ class ShippingDelete(LoginRequiredMixin, generic.DeleteView):
         if not request.user.has_perm('prjmgr.delete_shipping'):
             return HttpResponseForbidden()
         return super(ShippingDelete, self).dispatch(request, *args, **kwargs)
+
+
+@login_required()
+def billoflading_view(request):
+    table = BillOfLadingTable(BillOfLading.objects.all())
+    return render(request, 'prjmgr/billoflading_list.html', {'table':table})
+
+
+class BillOfLading_detailView(LoginRequiredMixin, generic.DetailView):
+    model = BillOfLading
+
+
+class BillOfLadingCreate(LoginRequiredMixin, generic.CreateView):
+    model = BillOfLading
+    template_name = 'prjmgr/billoflading_form.html'
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('prjmgr.add_billoflading'):
+            return HttpResponseForbidden()
+        return super(BillOfLadingCreate, self).dispatch(request, *args, **kwargs)
+
+
+class BillOfLadingUpdate(LoginRequiredMixin, generic.UpdateView):
+    model = BillOfLading
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('prjmgr.change_billoflading'):
+            return HttpResponseForbidden()
+        return super(BillOfLading, self).dispatch(request, *args, **kwargs)
+
+
+class BillOfLadingDelete(LoginRequiredMixin, generic.DeleteView):
+    model = BillOfLading
+    success_url = reverse_lazy('bls')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('prjmgr.delete_billoflading'):
+            return HttpResponseForbidden()
+        return super(BillOfLadingDelete, self).dispatch(request, *args, **kwargs)

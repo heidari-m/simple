@@ -7,17 +7,23 @@
         <a href="{% url 'customer_delete' customer.id %}"> - Delete</a>
     {% endif %}
     <div style="margin-left: 20px;margin-top: 20px">
+        <p><strong>CEO:</strong> {{ customer.ceo }}</p>
         <p><strong>Address:</strong> {{ customer.address }}</p>
         <p><strong>Commercial ID:</strong> {{ customer.commercial_id_number }}</p>
-        <p><strong>Phone:</strong> {{ customer.phone_1 }}</p>
+        <p><strong>Phone 1:</strong> {{ customer.phone_1 }}
+        {% if customer.phone_2 %}<strong>Phone 2:</strong> {{ customer.phone_2 }}{% endif %}
+        {% if customer.phone_3 %}<br><strong>Phone 3:</strong> {{ customer.phone_3 }}{% endif %}
+        {% if customer.address %}<br><strong>Fax:</strong> {{ customer.fax }}{% endif %}
+        </p>
+        {% if customer.comment %}<p><strong>Comment: </strong> {{ customer.comment }}</p>{% endif %}
         <br/>
         <hr>
         <p><strong>Contracts</strong></p>
         <p>
             {% for contractIns in customer.contract_set.all %}
-                <a href={% url 'contract-detail' contractIns.id %}> {{ contractIns.contract_number }}</a>
-                <br/>Contract Date: {{ contractIns.initiation_date }} and price: {{ contractIns.unit_price }}
-                {{ contractIns.contract_currency }}
+                <a href={% url 'contract-detail' contractIns.id %}> {{ contractIns.id }}</a>
+                <br/>Contract Date: {{ contractIns.initiation_date }} and unit price: {{ contractIns.unit_price|floatformat:2 }}
+                {{ contractIns.currency }}
                 {% if not forloop.last %} - {% endif %}
             {% endfor %}
         </p>

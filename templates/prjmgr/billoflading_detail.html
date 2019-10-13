@@ -1,0 +1,16 @@
+{% extends "prjmgr/base_generic.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>BLs: {{ bil }}</h1>
+        {% if perms.prjmgr.change_billoflading %}
+            <a href="{% url '' operation.id %}">Update</a>
+            <a href="{% url '_delete' operation.id %}"> - Delete</a>
+        {% endif %}
+        <br/>
+        <div style="margin-left: 20px;margin-top: 20px">
+            <p><strong>Type:</strong> {{ operation.get_operation_type_display }} </p>
+            <p><strong>Amount in metric ton:</strong> {{ operation.amount_mt }}</p>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -11,5 +11,9 @@
         <p><strong>Customer:</strong> <a
                 href="{% url 'customer-detail' payment.customer.pk %}">{{ payment.customer.name }}</a></p>
         <p><strong>Payment Amount:</strong> {{ payment.amountCurrency|intcomma }}</p>
+        <p><strong>Corresponding Contract:</strong> <a href="{% url 'contract-detail' payment.contract_id %}">{{ payment.contract_id }}</a> </p>
+        <p><strong>Date:</strong> {{ payment.payment_date }}</p>
+        <p><strong>Rate USD:</strong> {{ payment.rate_1_usd|floatformat:3 }}</p>
+        <p><strong>Comment:</strong> {{ payment.comment }}</p>
     </div>
 {% endblock %}
