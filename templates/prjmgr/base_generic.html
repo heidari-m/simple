@@ -17,13 +17,13 @@
 
     <!-- This Part or Following Part -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>
-{#    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>#}
+    {#    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>#}
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
     <!-- This Part or Above -->
-{#    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>#}
-{#    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>#}
-{#    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>#}
-{#    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>#}
+    {#    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>#}
+    {#    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>#}
+    {#    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>#}
+    {#    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>#}
 
 
     <!-- Add additional CSS in static file -->
@@ -32,10 +32,7 @@
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
-
-
     {% block title %}<title>Simple Contract Manager</title>{% endblock %}
-
 </head>
 <body>
 <div class="container-fluid">
@@ -50,7 +47,6 @@
                     <li><a href="{% url 'shipments' %}">All Shipments</a></li>
                     <li><a href="{% url 'bls' %}">Bill of Lading list</a></li>
                     <li><a href="{% url 'operations' %}">Operations</a></li>
-{#                    <li><a href="{% url 'storage' %}">Tank Situation</a></li>#}
                 </ul>
                 {% if perms.auth.create_pan %}
                     <ul class="sidebar-nav">
@@ -63,12 +59,10 @@
                         <li><a href="{% url 'operation_create' %}">Create Operation</a></li>
                     </ul>
                 {% endif %}
-                {##}
                 <ul>
                     <hr>
                     {% if user.is_authenticated %}
                         <li>User: {{ user.get_username }}</li>
-                        {#                        <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>#}
                         <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
                     {% else %}
                         <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>

@@ -53,6 +53,7 @@ class Payment(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     amount = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
     currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)
+    conversion_rate = models.DecimalField(max_digits=20, decimal_places=10, null=True, blank=True)
     rate_1_usd = models.DecimalField(max_digits=20, decimal_places=10, null=True, blank=True)
     comment = models.TextField(max_length=300, null=True, blank=True)
 
@@ -214,9 +215,9 @@ class Contract(models.Model):
         if not self.payment_set.all():
             return 'None'
         for pay_ins in self.payment_set.all():
-            sub_total += pay_ins.amount
+            sub_total += (pay_ins.amount * pay_ins.conversion_rate)
         # return f'{float("{0:.2f}".format(sub_total))} {pay_ins.currency_type}'
-        return f'{"{:,.2f}".format(sub_total)} {pay_ins.currency_type}'
+        return f'{"{:,.2f}".format(sub_total)} {pay_ins.currency}'
 
     def get_payments_detail(self):
         payment_dict = dict()

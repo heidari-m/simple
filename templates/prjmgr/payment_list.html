@@ -1,7 +1,7 @@
 {% extends "prjmgr/base_generic.html" %}
 {% block content %}
     {% if user.is_authenticated %}
-        <h1>Payment List</h1>
+        <h1>Payment List</h1><br>For more details click Payment number. Authorised users can change and delete
         <div style="margin-left: 20px;margin-top: 20px">
             {% if table %}
                 <ul>

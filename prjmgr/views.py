@@ -13,7 +13,6 @@ from .tables import CustomerTable, PaymentTable, BillOfLadingTable, ContractBill
     ContractTable, ContractPaymentTable, ContractOperationTable,ShippingTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
 from django.forms import ModelForm, ValidationError
 
-
 # import prjmgr.inventory
 
 # Create your views here.
@@ -47,12 +46,17 @@ class ContractDetailView(LoginRequiredMixin,SingleTableMixin, generic.DetailView
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        payment_qs = Payment.objects.filter(contract=self.kwargs['C_No']).values()
+        context['total_payment'] = 0
+        for i in payment_qs:
+            context['total_payment'] += i['amount']*i['conversion_rate']
+        context['sum_delivered'] = Operation.objects.filter(contract=self.kwargs['C_No'])\
+            .filter(operation_type='tank_out').aggregate(Sum('amount_mt')).get('amount_mt__sum') or 0
+        contract = Contract.objects.filter(id=self.kwargs['C_No']).values()
+        context['delivered_value'] = context['sum_delivered'] * contract[0]['unit_price']
+        context['deliverables'] = (context['total_payment']-context['delivered_value'])/contract[0]['unit_price']
         qs = Payment.objects.filter(contract=self.kwargs['C_No'])
         context['table'] = ContractPaymentTable(qs)
-        # qs2 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out')
-        # context['table2'] = ContractOperationTable(qs2)
-        # qs3 = Operation.objects.filter(contract=self.kwargs['C_No']).filter(operation_type='tank_out').values('customs_clearance_number').annotate(Sum('amount_mt'))
-        # context['table3'] = TmpTable(qs3)
         qs4 = BillOfLading.objects.filter(contract=self.kwargs['C_No'])
         context['table4'] = ContractBillTable(qs4)
         return context

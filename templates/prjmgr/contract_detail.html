@@ -28,10 +28,12 @@
                             <br><strong>Comment:</strong> {{ contract.comment }}</p>
                     </td>
                     <td style="width: 30%">
-                        <br><strong>Total Payment:</strong>
-                        <br><strong>Total Delivered (in MT):</strong> number <strong>Equal to:</strong> currency amount
-                        <br><strong>Deliverables:</strong>
-                        <br>some thing here
+                        <br><strong>Total Payment:</strong> {{ total_payment|floatformat:3 }} {{ contract.currency }}
+                        <br><strong>Total Delivered (in MT):</strong> {{ sum_delivered|floatformat:3 }}
+                        equal to:
+                        {{ sum_delivered|multiply:contract.unit_price|floatformat:3 }} {{ contract.currency }}
+                        <br><strong>Deliverables:</strong> {{ deliverables|floatformat:3 }} MT
+                        <br>
                     </td>
                 </tr>
             </table>

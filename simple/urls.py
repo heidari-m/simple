@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # url(r'^polls/', include('polls.urls')),
@@ -25,4 +26,5 @@ urlpatterns = [
     # url(r'^bookshelf/', include('bookshelf.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    # url(r'^password_reset/$', auth_views.password_reset),
 ]
