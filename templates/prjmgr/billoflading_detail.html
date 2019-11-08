@@ -2,15 +2,15 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <h1>BLs: {{ bil }}</h1>
+        <h1>BLs: </h1>
         {% if perms.prjmgr.change_billoflading %}
-            <a href="{% url '' operation.id %}">Update</a>
-            <a href="{% url '_delete' operation.id %}"> - Delete</a>
+            <a href="{% url '' object.id %}">Update</a>
+            <a href="{% url '_delete' object.id %}"> - Delete</a>
         {% endif %}
         <br/>
         <div style="margin-left: 20px;margin-top: 20px">
-            <p><strong>Type:</strong> {{ operation.get_operation_type_display }} </p>
-            <p><strong>Amount in metric ton:</strong> {{ operation.amount_mt }}</p>
+            <p><strong>Type:</strong>  </p>
+            <p><strong>Amount in metric ton:</strong> </p>
         </div>
     {% endif %}
 {% endblock %}

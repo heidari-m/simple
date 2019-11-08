@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
+
 urlpatterns = [
     # url(r'^polls/', include('polls.urls')),
     # url(r'^site01/', include('site01.urls')),
@@ -27,4 +28,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     # url(r'^password_reset/$', auth_views.password_reset),
+    # path('',include('password_reset.urls'))
 ]

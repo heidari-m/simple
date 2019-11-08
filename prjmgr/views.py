@@ -13,6 +13,7 @@ from .tables import CustomerTable, PaymentTable, BillOfLadingTable, ContractBill
     ContractTable, ContractPaymentTable, ContractOperationTable,ShippingTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
 from django.forms import ModelForm, ValidationError
 
+
 # import prjmgr.inventory
 
 # Create your views here.
@@ -20,7 +21,6 @@ from django.forms import ModelForm, ValidationError
 @login_required
 def index(request):
     """View function for home page of site."""
-
     # Render the HTML template index.html with the data in the context variable
     count_contracts = Contract.objects.all().count()
     total_shipment = Shipping.objects.all().aggregate(Sum('amount_metric_ton')).get('amount_metric_ton__sum') or 0
@@ -188,30 +188,30 @@ class PaymentDelete(LoginRequiredMixin, generic.DeleteView):
         return super(PaymentDelete, self).dispatch(request, *args, **kwargs)
 
 
-def BalanceStorageView(request):
-    # total_in = Shipping.objects.aggregate(sumIn=Sum('amount_metric_ton'))['sumIn']
-    # total_out = Delivery.objects.aggregate(sumOut=Sum('delivered_amount'))['sumOut']
-    # inventory.inventoryIn()
-    balance_mt = 0
-    balance_m3 = 0
-    density = 0
-    for opr in (Operation.objects.all()):
-        if opr.operation_type == 'in':
-            balance_mt += opr.amount_mt
-            balance_m3 += opr.amount_m3
-            density = balance_mt / balance_m3
-        else:
-            balance_mt -= opr.amount_mt
-            balance_m3 = (balance_mt / density)
-    context = {'balance_mt': balance_mt,
-               'balance_m3': balance_m3,
-               'density': density,
-               }
-    return render(request, 'prjmgr/tank_situation.html', context=context)
-
-
-class OperationListView(LoginRequiredMixin, generic.ListView):
-    model = Operation
+# def BalanceStorageView(request):
+#     # total_in = Shipping.objects.aggregate(sumIn=Sum('amount_metric_ton'))['sumIn']
+#     # total_out = Delivery.objects.aggregate(sumOut=Sum('delivered_amount'))['sumOut']
+#     # inventory.inventoryIn()
+#     balance_mt = 0
+#     balance_m3 = 0
+#     density = 0
+#     for opr in (Operation.objects.all()):
+#         if opr.operation_type == 'in':
+#             balance_mt += opr.amount_mt
+#             balance_m3 += opr.amount_m3
+#             density = balance_mt / balance_m3
+#         else:
+#             balance_mt -= opr.amount_mt
+#             balance_m3 = (balance_mt / density)
+#     context = {'balance_mt': balance_mt,
+#                'balance_m3': balance_m3,
+#                'density': density,
+#                }
+#     return render(request, 'prjmgr/tank_situation.html', context=context)
+#
+#
+# class OperationListView(LoginRequiredMixin, generic.ListView):
+#     model = Operation
 
 
 @login_required()

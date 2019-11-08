@@ -122,6 +122,10 @@ class BillOfLading(models.Model):
     def __str__(self):
         return f'{self.BL_number}'
 
+    def get_absolute_url(self):
+        """Returns the url to access a particular BL instance."""
+        return reverse('bl-detail', args=[str(self.id)])
+
 
 # class Delivery(models.Model):
 #     id = models.AutoField(primary_key=True)
@@ -163,7 +167,7 @@ class Operation(models.Model):
     amount_m3 = models.DecimalField(max_digits=20, decimal_places=4, null=True, blank=True)
 
     def get_absolute_url(self):
-        """Returns the url to access a particular customer instance."""
+        """Returns the url to access a particular Operation instance."""
         return reverse('operation-detail', args=[str(self.id)])
 
 

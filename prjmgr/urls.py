@@ -38,7 +38,7 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                path('shipment/<slug:tNo>/delete/', views.ShippingDelete.as_view(), name='shipping_delete'),
 
                path('bls/', views.billoflading_view, name='bls'),
-               path('bl/<int:pk>', views.BillOfLading_detailView.as_view(), name='bls-detail'),
+               path('bl/<int:pk>', views.BillOfLading_detailView.as_view(), name='bl-detail'),
                path('bl/create', views.BillOfLadingCreate.as_view(), name='bl_create'),
                path('bl/<int:pk>/update', views.BillOfLadingUpdate.as_view(), name='bl_update'),
                path('bl/<int:pk>/delete', views.BillOfLadingDelete.as_view(), name='bl_delete'),

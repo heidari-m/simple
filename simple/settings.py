@@ -13,14 +13,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import smtplib
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
-EMAIL_HOST_USER = 'agro.caspian.team@gmail.com' # email id
-EMAIL_HOST_PASSWORD = '14007818285' #password
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.conf.global_settings import STATIC_ROOT
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -56,6 +48,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'jquery',
     'django.contrib.humanize',
+    'password_reset',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +61,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com' # mail service smtp
+EMAIL_HOST_USER = 'agro.caspian.team@gmail.com' # email id
+EMAIL_HOST_PASSWORD = '14007818285' #password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 ROOT_URLCONF = 'simple.urls'
 

@@ -20,6 +20,7 @@ class StorageBalanceTable(tables.Table):
     amount_in = tables.Column('IN', orderable=False)
     amount_out = tables.Column('OUT', orderable=False)
     balance = tables.Column('Balance', orderable=False)
+    contract = tables.Column('Contract No', orderable=False)
 
     class Meta:
         # model = Operation
