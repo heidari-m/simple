@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'jquery',
     'django.contrib.humanize',
-    'password_reset',
+    # 'password_reset',
 ]
 
 MIDDLEWARE = [
