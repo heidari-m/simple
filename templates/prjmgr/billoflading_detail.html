@@ -2,10 +2,10 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <h1>BLs: </h1>
+        <h1>BL: </h1>
         {% if perms.prjmgr.change_billoflading %}
-            <a href="{% url '' object.id %}">Update</a>
-            <a href="{% url '_delete' object.id %}"> - Delete</a>
+            <a href="{% url 'bl_update' object.id %}">Update</a>
+            <a href="{% url 'bl_delete' object.id %}"> - Delete</a>
         {% endif %}
         <br/>
         <div style="margin-left: 20px;margin-top: 20px">

@@ -392,7 +392,7 @@ class BillOfLadingUpdate(LoginRequiredMixin, generic.UpdateView):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm('prjmgr.change_billoflading'):
             return HttpResponseForbidden()
-        return super(BillOfLading, self).dispatch(request, *args, **kwargs)
+        return super(BillOfLadingUpdate, self).dispatch(request, *args, **kwargs)
 
 
 class BillOfLadingDelete(LoginRequiredMixin, generic.DeleteView):

@@ -51,6 +51,7 @@ class ContractPaymentTable(PaymentTable):
 
 
 class BillOfLadingTable(tables.Table):
+    id = tables.Column(linkify=('bl-detail', {'pk': tables.A('id')}))
     amount = SummingColumn()
     class Meta:
         model = BillOfLading
