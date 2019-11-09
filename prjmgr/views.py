@@ -25,7 +25,7 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     count_contracts = Contract.objects.all().count()
     total_shipment = Shipping.objects.all().aggregate(Sum('amount_metric_ton')).get('amount_metric_ton__sum') or 0
-    total_delivered = Operation.objects.filter(operation_type='tank_in').aggregate(Sum('amount_mt')).get('amount_ton__sum') or 0
+    total_delivered = Operation.objects.filter(operation_type='tank_out').aggregate(Sum('amount_mt')).get('amount_mt__sum') or 0
     context = {'count_contracts': count_contracts,
                'total_shipment': total_shipment,
                'total_delivered': total_delivered}
