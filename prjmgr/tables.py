@@ -71,6 +71,11 @@ class OperationTable(tables.Table):
         template_name = 'django_tables2/bootstrap4.html'
 
 
+class StorageTable(tables.Table):
+    class Meta:
+        template_name = 'django_tables2/bootstrap4.html'
+
+
 class ContractOperationTable(OperationTable):
     class Meta(OperationTable.Meta):
         exclude = ('id','customer','contract','customs_clearance_number','operation_type','amount_m3')

@@ -10,8 +10,9 @@ from django.http import HttpResponseForbidden, HttpResponse, HttpResponseRedirec
 from django_pandas.io import read_frame
 from django_tables2 import SingleTableView, RequestConfig, SingleTableMixin, MultiTableMixin
 from .tables import CustomerTable, PaymentTable, BillOfLadingTable, ContractBillTable, OperationTable, StorageBalanceTable, \
-    ContractTable, ContractPaymentTable, ContractOperationTable,ShippingTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
+    ContractTable, ContractPaymentTable, ContractOperationTable,ShippingTable, StorageTable, ShippingDeliveryTable, TmpTable  # , SimpleTable
 from django.forms import ModelForm, ValidationError
+from .forms import OperationForm
 
 
 # import prjmgr.inventory
@@ -216,7 +217,7 @@ class PaymentDelete(LoginRequiredMixin, generic.DeleteView):
 
 @login_required()
 def storage_balance_view(request):
-    data = list(Operation.objects.values())
+    data = list(Operation.objects.values().order_by('date'))
     balance = 0
     for i in data:
         if (i['operation_type'] == 'tank_in'):
@@ -243,6 +244,7 @@ class OperationDetailView(LoginRequiredMixin, generic.DetailView):
 
 class OperationCreate(LoginRequiredMixin, generic.CreateView):
     model = Operation
+    # form_class = OperationForm
     template_name = 'prjmgr/operation_form.html'
     fields = '__all__'
 
@@ -403,3 +405,8 @@ class BillOfLadingDelete(LoginRequiredMixin, generic.DeleteView):
         if not request.user.has_perm('prjmgr.delete_billoflading'):
             return HttpResponseForbidden()
         return super(BillOfLadingDelete, self).dispatch(request, *args, **kwargs)
+
+
+# @login_required()
+# def storage_view(request):
+#     table = StorageTable()
