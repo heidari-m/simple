@@ -20,7 +20,7 @@ class StorageBalanceTable(tables.Table):
     amount_in = tables.Column('IN', orderable=False)
     amount_out = tables.Column('OUT', orderable=False)
     balance = tables.Column('Balance', orderable=False)
-    contract = tables.Column('Contract No', orderable=False)
+    contract_id = tables.Column('Contract No', orderable=False)
 
     class Meta:
         # model = Operation
@@ -72,6 +72,7 @@ class OperationTable(tables.Table):
 
 
 class StorageTable(tables.Table):
+    contract_id = tables.Column('Contract No',orderable=False)
     class Meta:
         template_name = 'django_tables2/bootstrap4.html'
 
